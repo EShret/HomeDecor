@@ -1,0 +1,137 @@
+@import "_variables";
+@import "_null";
+@import "_fonts";
+@import "_repeat";
+@import "_header";
+@import "_home";
+@import "_catalogPG";
+@import "_setPG";
+@import "_footer";
+
+@import "admin/admin";
+@import "admin/auth";
+@import "admin/repeat";
+@import "admin/list";
+@import "admin/creat";
+@import "admin/edit";
+@import "admin/vue-multiselect";
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    color: $text;
+    line-height: 1;
+    font-size: 17px;
+    font-weight: 400;
+    font-family: $defaultFontFamily;
+
+    body.lock {
+        overflow: hidden;
+    }
+
+    h1 {
+        font-size: calc(25px + (27 - 25) * ((100vw - $minimalSW_M_PX) / (1920 - $minimalSW_M)));
+        font-weight: 400;
+    }
+
+    h2 {
+        font-size: calc(18px + (30 - 18) * ((100vw - $minimalSW_M_PX) / (1920 - $minimalSW_M)));
+        font-weight: 600;
+    }
+
+    h3 {
+        font-size: calc(14px + (17 - 14) * ((100vw - $minimalSW_M_PX) / (1920 - $minimalSW_M)));
+        font-weight: 700;
+    }
+
+    p {
+        font-size: calc(12px + (18 - 12) * ((100vw - $minimalSW_M_PX) / (1920 - $minimalSW_M)));
+        line-height: 160%;
+    }
+
+    a {
+        color: $text;
+    }
+}
+
+// </ОБНУЛЕНИЕ, ОБЩИЕ ПАРАМЕТРЫ> ==============================================================================
+
+// <ОБОЛОЧКА> ==============================================================================
+#__nuxt {
+    height: 100%;
+}
+
+#__layout {
+    height: 100%;
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .main {
+        // display: flex;
+        // padding: 80px 0px 0px 0px;
+    }
+}
+
+// </ОБОЛОЧКА> ==============================================================================
+
+// <ОСНОВНАЯ СЕТКА> ==============================================================================
+.container {
+    max-width: $maxWidthContainer+px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: $md1+px) {
+        max-width: 90%;
+    }
+
+    @media (max-width: $md2+px) {
+        max-width: 100%;
+        padding: 0px 20px;
+    }
+
+    @media (max-width: $md3+px) {
+        max-width: 100%;
+        padding: 0px 15px;
+    }
+}
+
+// </ОСНОВНАЯ СЕТКА> ==============================================================================
+
+// <ОСНОВНОЙ БЛОК> ==============================================================================
+
+// </ОСНОВНОЙ БЛОК> ==============================================================================
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.3s;
+}
+
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}
+
+
+.layout-enter-active,
+.layout-leave-active {
+    transition: opacity 0.3s;
+}
+
+.layout-enter,
+.layout-leave-active {
+    opacity: 0;
+}
+
+//==============================================================================================

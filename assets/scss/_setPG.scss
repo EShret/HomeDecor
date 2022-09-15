@@ -1,0 +1,173 @@
+.setPG {
+    padding: 180px 0px 0px 0px;
+
+    .setPG__body {
+        display: flex;
+        flex-direction: row;
+        padding: 0px 60px;
+
+        .set__preview-img {
+            padding: 0px 30px 0px 0px;
+            width: 50%;
+
+            // Preview SLIDER
+            .preview-img {
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+                margin: 0px 0px 10px 0px;
+
+                .preview-img-slide {
+                    width: 100%;
+                }
+            }
+
+            // mini preview slider
+            .mini__preview-img {
+                overflow: hidden;
+                width: 100%;
+
+                .swiper-wrapper {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    width: 100%;
+                }
+
+                .mini__preview-img-slide {
+                    width: 95px !important;
+                    opacity: 0.4;
+                    transition: 0.5s;
+                }
+
+                .mini__preview-img-slide.swiper-slide-thumb-active {
+                    opacity: 1;
+                }
+            }
+        }
+
+        // Set Products
+        .set__products {
+            padding: 0px 0px 0px 30px;
+            width: 50%;
+
+            .title {
+                h1 {
+                    margin: 0px 0px 30px 0px;
+                }
+            }
+
+            .subTitle {
+                span {
+                    font-size: 20px;
+                    font-weight: 300;
+                    color: #28303F;
+                }
+            }
+
+            // product__card
+            .product__card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                // product-img
+                .product-img {
+                    width: 150px;
+                    height: 215px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    position: relative;
+                    margin: 0px 70px 0px 0px;
+
+                    &:hover {
+                        .zoomIco {
+                            width: 20px;
+                            opacity: 1;
+                            margin: 10px 0px 0px 0px;
+                        }
+                    }
+
+                    .product-preview {
+                        max-width: 100%;
+                        max-height: 100%;
+                        object-fit: contain;
+                        border: 3px solid #fff;
+                        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+                    }
+
+                    .zoomIco {
+                        width: 0px;
+                        opacity: 0;
+                        transition: 0.5s;
+                    }
+                }
+
+                // product__detail
+                .product__detail {
+                    flex: 0 0 50%;
+                    display: flex;
+                    flex-direction: column;
+
+                    select {
+                        width: 100%;
+                        border: 1px solid $stroke;
+                        margin: 0px 0px 15px 0px;
+                        padding: 5px;
+                    }
+
+                    .addToCart {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+                        background-color: $blue;
+                        padding: 10px 15px;
+
+                        span {
+                            font-weight: 300;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .popup {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+
+        .popup_bg {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            z-index: 101;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: auto;
+            height: auto;
+        }
+
+        .popup_img {
+            position: fixed;
+            z-index: 102;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            max-height: 70%;
+        }
+    }
+}
+
+
+
+
+
