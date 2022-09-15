@@ -171,18 +171,18 @@
 
 <script>
 export default {
-  // async asyncData({ $axios, params, error }) {
-  //   try {
-  //     const catalogs = await $axios.get(`/api/catalogs/url/${params.url}`);
-  //     const sets = await $axios.$get(`/api/sets`);
-  //     return {
-  //       catalogs: catalogs.data,
-  //       sets,
-  //     };
-  //   } catch (e) {
-  //     error({ statusCode: e.response.status });
-  //   }
-  // },
+  async asyncData({ $axios, params, error }) {
+    try {
+      const catalogs = await $axios.get(`/api/catalogs/url/${params.url}`);
+      const sets = await $axios.$get(`/api/sets`);
+      return {
+        catalogs: catalogs.data,
+        sets,
+      };
+    } catch (e) {
+      error({ statusCode: e.response.status });
+    }
+  },
 
   mounted() {
     (function () {
