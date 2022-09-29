@@ -118,27 +118,6 @@ router.delete("/:id", getCatalogsID, async (req, res) => {
 });
 
 
-router.post("/addFile", upload.single("file"), async (req, res, next) => {
-    if (req.headers.authorization === undefined) {
-        res.status(403).json({ message: "Токен не распознан" });
-    } else {
-        const token = req.headers.authorization.split("Bearer ")[1];
-        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
-            if (err) {
-                res.status(403).json({ message: "Токен неправильный" });
-            } else {
-                const newFileName = req.file != null ? req.file : null;
-                try {
-                    await res.json(newFileName);
-                } catch (err) {
-                    res.status(500).json({ message: err.message });
-                }
-            }
-        });
-    }
-});
-
-
 async function getCatalogsID(req, res, next) {
     let catalogs;
     try {

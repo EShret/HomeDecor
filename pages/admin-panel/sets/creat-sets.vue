@@ -83,7 +83,9 @@
               </ValidationProvider>
             </div>
 
-            <!-- row  -->
+            <!-- =====================
+                    CATALOGS  
+            ========================-->
             <div class="form__row">
               <ValidationProvider
                 rules="required"
@@ -91,16 +93,13 @@
                 class="form__item w40"
                 tag="div"
               >
-                <label>
-                  Выбор Категории
-                  <br />
-                  <br />
-                  <span style="color: red" v-if="catalogName.length > 5">
-                    Больше 5 категорий на один сет выбирать нельзя
-                  </span>
-                </label>
+                <label> Выбор Категории </label>
+                <span style="color: red" v-if="catalogName.length >= 5">
+                  Нельзя выбрать больше 5 категорий на один сет
+                </span>
+                <br />
                 <!-- CATALOG  -->
-                <multiselect
+                <!-- <multiselect
                   class="multiselect"
                   v-model="catalogName"
                   tag-placeholder="Добавить Категории"
@@ -109,7 +108,16 @@
                   label="catalogTitle"
                   :multiple="true"
                   track-by="_id"
-                ></multiselect>
+                ></multiselect> -->
+
+                <CustomSelect
+                  :options="catalogs"
+                  displayProperty="catalogTitle"
+                  valueProperty="catalogTitle"
+                  placeholder="Клик для выбора Категории..."
+                  :vmodel="catalogName"
+                  v-model="catalogName"
+                ></CustomSelect>
 
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -118,108 +126,33 @@
             <!-- =====================
                   SUBCATALOGS  
             ========================-->
-            <!-- SUBCATALOG 1  -->
-            <div class="form__row" v-if="catalogName.length >= 1">
+            <!-- SUBCATALOG  -->
+            <div class="form__row">
               <div class="form__item w40">
-                <label>
-                  Выбор Подкатегорию из категории: "{{
-                    catalogName[0].catalogTitle
-                  }}"
-                </label>
-                <multiselect
-                  class="multiselect"
-                  v-model="subCatalogName1"
-                  tag-placeholder="Добавить подкатегории"
-                  placeholder="Выберите подкатегории"
-                  :options="catalogName[0].subCatalogsName"
-                  label="subcatalogTitle"
-                  :multiple="true"
-                  track-by="_id"
-                ></multiselect>
-              </div>
-            </div>
+                <label> Выбор Подкатегорию </label>
+                <span style="color: red" v-if="catalogName.length >= 20">
+                  Нельзя выбрать больше 20 подкатегорий на один сет
+                </span>
 
-            <!-- SUBCATALOG 2  -->
-            <div class="form__row" v-if="catalogName.length >= 2">
-              <div class="form__item w40">
-                <label>
-                  Выбор Подкатегорию из категории: "{{
-                    catalogName[1].catalogTitle
-                  }}"
-                </label>
                 <multiselect
                   class="multiselect"
-                  v-model="subCatalogName2"
+                  v-model="subCatalogName"
                   tag-placeholder="Добавить подкатегории"
                   placeholder="Выберите подкатегории"
-                  :options="catalogName[1].subCatalogsName"
+                  :options="subcatalogs"
                   label="subcatalogTitle"
                   :multiple="true"
                   track-by="_id"
                 ></multiselect>
-              </div>
-            </div>
 
-            <!-- SUBCATALOG 3  -->
-            <div class="form__row" v-if="catalogName.length >= 3">
-              <div class="form__item w40">
-                <label>
-                  Выбор Подкатегорию из категории: "{{
-                    catalogName[2].catalogTitle
-                  }}"
-                </label>
-                <multiselect
-                  class="multiselect"
-                  v-model="subCatalogName3"
-                  tag-placeholder="Добавить подкатегории"
-                  placeholder="Выберите подкатегории"
-                  :options="catalogName[2].subCatalogsName"
-                  label="subcatalogTitle"
-                  :multiple="true"
-                  track-by="_id"
-                ></multiselect>
-              </div>
-            </div>
-
-            <!-- SUBCATALOG 4  -->
-            <div class="form__row" v-if="catalogName.length >= 4">
-              <div class="form__item w40">
-                <label>
-                  Выбор Подкатегорию из категории: "{{
-                    catalogName[3].catalogTitle
-                  }}"
-                </label>
-                <multiselect
-                  class="multiselect"
-                  v-model="subCatalogName4"
-                  tag-placeholder="Добавить подкатегории"
-                  placeholder="Выберите подкатегории"
-                  :options="catalogName[3].subCatalogsName"
-                  label="subcatalogTitle"
-                  :multiple="true"
-                  track-by="_id"
-                ></multiselect>
-              </div>
-            </div>
-
-            <!-- SUBCATALOG 5  -->
-            <div class="form__row" v-if="catalogName.length >= 5">
-              <div class="form__item w40">
-                <label>
-                  Выбор Подкатегорию из категории: "{{
-                    catalogName[4].catalogTitle
-                  }}"
-                </label>
-                <multiselect
-                  class="multiselect"
-                  v-model="subCatalogName5"
-                  tag-placeholder="Добавить подкатегории"
-                  placeholder="Выберите подкатегории"
-                  :options="catalogName[4].subCatalogsName"
-                  label="subcatalogTitle"
-                  :multiple="true"
-                  track-by="_id"
-                ></multiselect>
+                <!-- <CustomSelect
+                  :options="subcatalogs"
+                  displayProperty="subcatalogTitle"
+                  valueProperty="subcatalogTitle"
+                  placeholder="Клик для выбора Подкатегории..."
+                  :vmodel="subCatalogName"
+                  v-model="subCatalogName"
+                ></CustomSelect> -->
               </div>
             </div>
 
@@ -255,6 +188,7 @@
 <script>
 import axios from "axios";
 import Multiselect from "vue-multiselect";
+import CustomSelect from "@/components/admin/CustomSelect.vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
@@ -264,6 +198,7 @@ export default {
     Multiselect,
     ValidationProvider,
     ValidationObserver,
+    CustomSelect,
   },
 
   async asyncData({ $axios, error }) {
@@ -289,11 +224,7 @@ export default {
     titleSets: "",
     paintingsName: [],
     catalogName: [],
-    subCatalogName1: [],
-    subCatalogName2: [],
-    subCatalogName3: [],
-    subCatalogName4: [],
-    subCatalogName5: [],
+    subCatalogName: [],
 
     files: [],
   }),
@@ -319,11 +250,7 @@ export default {
       formData.append("titleSets", this.titleSets);
       formData.append("paintingsName", JSON.stringify(this.paintingsName));
       formData.append("catalogName", JSON.stringify(this.catalogName));
-      formData.append("subCatalogName1", JSON.stringify(this.subCatalogName1));
-      formData.append("subCatalogName2", JSON.stringify(this.subCatalogName2));
-      formData.append("subCatalogName3", JSON.stringify(this.subCatalogName3));
-      formData.append("subCatalogName4", JSON.stringify(this.subCatalogName4));
-      formData.append("subCatalogName5", JSON.stringify(this.subCatalogName5));
+      formData.append("subCatalogName", JSON.stringify(this.subCatalogName));
       axios
         .post(`/api/sets`, formData, {
           headers: {

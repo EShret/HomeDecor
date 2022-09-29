@@ -74,11 +74,7 @@ router.patch("/:id", getSetsId, async (req, res) => {
                 res.sets.titleSets = req.body.titleSets;
                 res.sets.paintingsName = JSON.parse(req.body.paintingsName);
                 res.sets.catalogName = JSON.parse(req.body.catalogName);
-                res.sets.subCatalogName1 = JSON.parse(req.body.subCatalogName1);
-                res.sets.subCatalogName2 = JSON.parse(req.body.subCatalogName2);
-                res.sets.subCatalogName3 = JSON.parse(req.body.subCatalogName3);
-                res.sets.subCatalogName4 = JSON.parse(req.body.subCatalogName4);
-                res.sets.subCatalogName5 = JSON.parse(req.body.subCatalogName5);
+                res.sets.subCatalogName = JSON.parse(req.body.subCatalogName);
 
                 res.sets.coverImageName = req.body.coverImageName;
                 try {
@@ -86,11 +82,7 @@ router.patch("/:id", getSetsId, async (req, res) => {
                     res.status(200).json({
                         titleSets: res.sets.titleSets,
                         catalogName: res.sets.catalogName,
-                        subCatalogName1: res.sets.subCatalogName1,
-                        subCatalogName2: res.sets.subCatalogName2,
-                        subCatalogName3: res.sets.subCatalogName3,
-                        subCatalogName4: res.sets.subCatalogName4,
-                        subCatalogName5: res.sets.subCatalogName5,
+                        subCatalogName: res.sets.subCatalogName,
 
                         coverImageName: res.sets.coverImageName,
                     });
@@ -112,11 +104,7 @@ router.post("/", upload.array("files", 10), async (req, res, next) => {
         titleSets: req.body.titleSets,
         paintingsName: JSON.parse(req.body.paintingsName),
         catalogName: JSON.parse(req.body.catalogName),
-        subCatalogName1: JSON.parse(req.body.subCatalogName1),
-        subCatalogName2: JSON.parse(req.body.subCatalogName2),
-        subCatalogName3: JSON.parse(req.body.subCatalogName3),
-        subCatalogName4: JSON.parse(req.body.subCatalogName4),
-        subCatalogName5: JSON.parse(req.body.subCatalogName5),
+        subCatalogName: JSON.parse(req.body.subCatalogName),
 
         coverImageName: reqFiles,
     });

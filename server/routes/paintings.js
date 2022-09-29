@@ -40,7 +40,9 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     const fileName = req.file != null ? req.file : null;
     const paintings = new Paintings({
         title: req.body.title,
-        sizePrice: JSON.parse(req.body.sizePrice),
+        printSizePost: JSON.parse(req.body.printSizePost),
+        sizeFrame: JSON.parse(req.body.sizeFrame),
+
         coverImageName: fileName,
     });
     try {
@@ -67,13 +69,17 @@ router.patch("/:id", getPaintingsID, async (req, res) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 res.paintings.title = req.body.title;
-                res.paintings.sizePrice = JSON.parse(req.body.sizePrice);
+                res.paintings.printSizePost = JSON.parse(req.body.printSizePost);
+                res.paintings.sizeFrame = JSON.parse(req.body.sizeFrame);
+
                 res.paintings.coverImageName = req.body.coverImageName;
                 try {
                     await res.paintings.save();
                     res.status(200).json({
                         title: res.paintings.title,
-                        sizePrice: res.paintings.sizePrice,
+                        printSizePost: res.paintings.printSizePost,
+                        sizeFrame: res.paintings.sizeFrame,
+
                         coverImageName: res.paintings.coverImageName,
                     });
                 } catch (err) {

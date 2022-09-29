@@ -47,6 +47,15 @@
                   :multiple="true"
                   track-by="_id"
                 ></multiselect>
+
+                <!-- <CustomSelect
+                  :options="subcatalogs"
+                  displayProperty="subcatalogTitle"
+                  valueProperty="subcatalogTitle"
+                  placeholder="Клик для выбора Подкатегории..."
+                  :vmodel="subCatalogsName"
+                  v-model="subCatalogsName"
+                /> -->
               </div>
             </div>
 

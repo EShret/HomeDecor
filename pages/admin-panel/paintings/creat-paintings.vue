@@ -45,47 +45,55 @@
               </div>
             </div>
 
-            <div class="form__column">
-              <!-- 1 row -->
-              <div
-                class="form__row w30"
-                v-for="(item, index) of sizePrice"
-                :key="item"
+            <!-- ROW -->
+            <div class="form__row">
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w40"
+                tag="div"
               >
-                <div class="indexnum">
-                  <span>{{ index + 1 }}</span>
-                </div>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  class="form__item w50"
-                  tag="div"
-                >
-                  <label>Размер</label>
-                  <input
-                    class="inptTxt"
-                    type="text"
-                    v-model="sizePrice[index].size"
-                  />
-                  <span class="error-message">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  class="form__item w50"
-                  tag="div"
-                >
-                  <label>Стоимость</label>
-                  <input
-                    class="inptTxt"
-                    type="number"
-                    v-model="sizePrice[index].price"
-                  />
-                  <span class="error-message">{{ errors[0] }}</span>
-                </ValidationProvider>
-              </div>
+                <label>Размеры печати</label>
+                <!-- Size POST -->
+                <multiselect
+                  class="multiselect"
+                  v-model="printSizePost"
+                  tag-placeholder="Размеры печати"
+                  placeholder="Размеры печати"
+                  :options="printSize"
+                  label="prSize"
+                  :multiple="true"
+                  track-by="_id"
+                ></multiselect>
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
 
-            <!-- 4 row -->
+            <!-- ROW -->
+            <div class="form__row">
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w40"
+                tag="div"
+              >
+                <label>Размеры Рам</label>
+                <!-- Size Frames -->
+                <multiselect
+                  class="multiselect"
+                  v-model="sizeFrame"
+                  tag-placeholder="Размеры Рам"
+                  placeholder="Размеры Рам"
+                  :options="frames"
+                  label="frameSize"
+                  :multiple="true"
+                  track-by="_id"
+                ></multiselect>
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+
+            <!-- row -->
             <div class="form__row">
               <button
                 v-if="disableButton === false"
@@ -116,14 +124,30 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
   layout: "admin",
 
   components: {
+    Multiselect,
     ValidationProvider,
     ValidationObserver,
+  },
+
+  async asyncData({ $axios, error }) {
+    try {
+      const printSize = await $axios.$get(`/api/printSize`);
+      const frames = await $axios.$get(`/api/frames`);
+
+      return {
+        printSize,
+        frames,
+      };
+    } catch (e) {
+      error({ statusCode: e.response.status });
+    }
   },
 
   data: () => ({
@@ -131,37 +155,9 @@ export default {
     disableButton: true,
 
     title: "",
-    sizePrice: [
-      {
-        size: "",
-        price: "",
-      },
+    printSizePost: [],
+    sizeFrame: [],
 
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-    ],
     file: "",
   }),
 
@@ -173,7 +169,9 @@ export default {
     newPaintings() {
       let formData = new FormData();
       formData.append("title", this.title);
-      formData.append("sizePrice", JSON.stringify(this.sizePrice));
+      formData.append("printSizePost", JSON.stringify(this.printSizePost));
+      formData.append("sizeFrame", JSON.stringify(this.sizeFrame));
+
       formData.append("file", this.file);
       axios
         .post(`/api/paintings`, formData, {

@@ -20,17 +20,6 @@
                 <input class="inptTxt" type="text" v-model="subcatalogTitle" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
-
-              <ValidationProvider
-                rules="required"
-                v-slot="{ errors }"
-                class="form__item w20"
-                tag="div"
-              >
-                <label>URL Подкатегории</label>
-                <input class="inptTxt" type="text" v-model="subCatalogURL" />
-                <span class="error-message">{{ errors[0] }}</span>
-              </ValidationProvider>
             </div>
 
             <!-- 4 row BUTTON -->
@@ -76,7 +65,6 @@ export default {
     postLoader: false,
 
     subcatalogTitle: "",
-    subCatalogURL: "",
   }),
 
   async asyncData({ $axios, params, error }) {
@@ -92,7 +80,6 @@ export default {
     subcatalogUpdate() {
       let formData = {
         subcatalogTitle: this.subcatalogTitle,
-        subCatalogURL: this.subCatalogURL,
       };
       axios
         .patch(`/api/subcatalogs/${this.subcatalogs._id}`, formData, {
@@ -106,7 +93,9 @@ export default {
           setTimeout(() => {
             this.$router.push("/admin-panel/catalog/subcatalog");
           }, 500),
-            this.$toast.success("Проект обновлен 👍🏼", { duration: 5000 });
+            this.$toast.success("Подкатегория обновлена 👍🏼", {
+              duration: 5000,
+            });
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message, { duration: 5000 });
@@ -116,7 +105,6 @@ export default {
 
   mounted() {
     this.subcatalogTitle = this.subcatalogs.subcatalogTitle;
-    this.subCatalogURL = this.subcatalogs.subCatalogURL;
   },
 };
 </script>

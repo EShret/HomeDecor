@@ -41,7 +41,6 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     const fileName = req.file != null ? req.file : null;
     const subcatalogs = new Subcatalogs({
         subcatalogTitle: req.body.subcatalogTitle,
-        subCatalogURL: req.body.subCatalogURL,
 
         coverImageName: fileName,
     });
@@ -59,11 +58,6 @@ router.get("/:id", getSubcatalogsID, (req, res) => {
 });
 
 
-router.get("/url/:url", getSubCatalogsURL, (req, res) => {
-    res.json(res.subcatalogs);
-});
-
-
 router.patch("/:id", getSubcatalogsID, async (req, res) => {
     if (req.headers.authorization === undefined) {
         res.status(403).json({ message: "Токен не распознан" });
@@ -74,13 +68,13 @@ router.patch("/:id", getSubcatalogsID, async (req, res) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 res.subcatalogs.subcatalogTitle = req.body.subcatalogTitle;
-                res.subcatalogs.subCatalogURL = req.body.subCatalogURL;
 
                 res.subcatalogs.coverImageName = req.body.coverImageName;
                 try {
                     await res.subcatalogs.save();
                     res.status(200).json({
                         subcatalogTitle: res.subcatalogs.subcatalogTitle,
+
                         coverImageName: res.subcatalogs.coverImageName,
                     });
                 } catch (err) {
@@ -113,46 +107,10 @@ router.delete("/:id", getSubcatalogsID, async (req, res) => {
 });
 
 
-router.post("/addFile", upload.single("file"), async (req, res, next) => {
-    if (req.headers.authorization === undefined) {
-        res.status(403).json({ message: "Токен не распознан" });
-    } else {
-        const token = req.headers.authorization.split("Bearer ")[1];
-        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
-            if (err) {
-                res.status(403).json({ message: "Токен неправильный" });
-            } else {
-                const newFileName = req.file != null ? req.file : null;
-                try {
-                    await res.json(newFileName);
-                } catch (err) {
-                    res.status(500).json({ message: err.message });
-                }
-            }
-        });
-    }
-});
-
-
 async function getSubcatalogsID(req, res, next) {
     let subcatalogs;
     try {
         subcatalogs = await Subcatalogs.findOne({ _id: req.params.id }).exec();
-        if (subcatalogs === null) {
-            return res.status(404).json({ message: "Страницы не существует" });
-        }
-    } catch (err) {
-        return res.status(500).json({ message: err.message });
-    }
-    res.subcatalogs = subcatalogs;
-    next();
-}
-
-
-async function getSubCatalogsURL(req, res, next) {
-    let subcatalogs;
-    try {
-        subcatalogs = await Subcatalogs.findOne({ subCatalogURL: req.params.url }).exec();
         if (subcatalogs === null) {
             return res.status(404).json({ message: "Страницы не существует" });
         }

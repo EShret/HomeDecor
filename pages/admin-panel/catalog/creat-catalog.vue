@@ -47,6 +47,15 @@
                   :multiple="true"
                   track-by="_id"
                 ></multiselect>
+
+                <!-- <CustomSelect
+                  :options="subcatalogs"
+                  displayProperty="subcatalogTitle"
+                  valueProperty="subcatalogTitle"
+                  placeholder="Клик для выбора Подкатегории..."
+                  :vmodel="subCatalogsName"
+                  v-model="subCatalogsName"
+                /> -->
               </div>
             </div>
 
@@ -80,6 +89,7 @@
 <script>
 import axios from "axios";
 import Multiselect from "vue-multiselect";
+import CustomSelect from "@/components/admin/CustomSelect.vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
@@ -89,6 +99,7 @@ export default {
     Multiselect,
     ValidationProvider,
     ValidationObserver,
+    CustomSelect,
   },
 
   async asyncData({ $axios, error }) {

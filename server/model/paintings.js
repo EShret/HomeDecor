@@ -10,8 +10,17 @@ const paintingsSchema = new mongoose.Schema({
         require: true
     },
 
-    sizePrice: {
+    printSizePost: {
         type: Array
+    },
+
+    sizeFrame: {
+        type: Array
+    },
+
+    quantity: {
+        type: Number,
+        default: 1,
     },
 
     createdDate: {

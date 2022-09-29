@@ -57,44 +57,52 @@
               </div>
             </div>
 
-            <div class="form__column">
-              <!-- 1 row -->
-              <div
-                class="form__row w30"
-                v-for="(item, index) of sizePrice"
-                :key="item"
+            <!-- ROW -->
+            <div class="form__row">
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w40"
+                tag="div"
               >
-                <div class="indexnum">
-                  <span>{{ index + 1 }}</span>
-                </div>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  class="form__item w50"
-                  tag="div"
-                >
-                  <label>Размер</label>
-                  <input
-                    class="inptTxt"
-                    type="text"
-                    v-model="sizePrice[index].size"
-                  />
-                  <span class="error-message">{{ errors[0] }}</span>
-                </ValidationProvider>
+                <label>Размеры печати</label>
+                <!-- Size POST -->
+                <multiselect
+                  class="multiselect"
+                  v-model="printSizePost"
+                  tag-placeholder="Размеры печати"
+                  placeholder="Размеры печати"
+                  :options="printSize"
+                  label="prSize"
+                  :multiple="true"
+                  track-by="_id"
+                ></multiselect>
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
 
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  class="form__item w50"
-                  tag="div"
-                >
-                  <label>Стоимость</label>
-                  <input
-                    class="inptTxt"
-                    type="number"
-                    v-model="sizePrice[index].price"
-                  />
-                  <span class="error-message">{{ errors[0] }}</span>
-                </ValidationProvider>
-              </div>
+            <!-- ROW -->
+            <div class="form__row">
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w40"
+                tag="div"
+              >
+                <label>Размеры Рам</label>
+                <!-- Size Frames -->
+                <multiselect
+                  class="multiselect"
+                  v-model="sizeFrame"
+                  tag-placeholder="Размеры Рам"
+                  placeholder="Размеры Рам"
+                  :options="frames"
+                  label="frameName"
+                  :multiple="true"
+                  track-by="_id"
+                ></multiselect>
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
 
             <!-- 4 row -->
@@ -126,12 +134,14 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
   layout: "admin",
 
   components: {
+    Multiselect,
     ValidationProvider,
     ValidationObserver,
   },
@@ -139,9 +149,13 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const paintings = await $axios.get(`/api/paintings/${params.id}`);
+      const printSize = await $axios.$get(`/api/printSize`);
+      const frames = await $axios.$get(`/api/frames`);
 
       return {
         paintings: paintings.data,
+        printSize,
+        frames,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -153,41 +167,12 @@ export default {
     newAddedFiles: "",
     postLoader: false,
 
+    title: "",
+    printSizePost: [],
+    sizeFrame: [],
+
     file: "",
     coverImageName: "",
-
-    title: "",
-    sizePrice: [
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-
-      {
-        size: "",
-        price: "",
-      },
-    ],
   }),
 
   methods: {
@@ -203,7 +188,9 @@ export default {
       }
       let formData = {
         title: this.title,
-        sizePrice: JSON.stringify(this.sizePrice),
+        printSizePost: JSON.stringify(this.printSizePost),
+        sizeFrame: JSON.stringify(this.sizeFrame),
+
         coverImageName: finalImages,
       };
       axios
@@ -253,7 +240,9 @@ export default {
 
   mounted() {
     this.title = this.paintings.title;
-    this.sizePrice = this.paintings.sizePrice;
+    this.printSizePost = this.paintings.printSizePost;
+    this.sizeFrame = this.paintings.sizeFrame;
+
     this.coverImageName = this.paintings.coverImageName;
   },
 };

@@ -23,7 +23,7 @@
           <nuxt-link
             active-class="header__link-active"
             class="header__link"
-            to="/"
+            to="/cart"
           >
             <img src="/img/ico/cart.svg" />
             <span>Корзина</span>

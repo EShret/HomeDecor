@@ -10,11 +10,6 @@ const subcatalogsSchema = new mongoose.Schema({
         require: true
     },
 
-    subCatalogURL: {
-        type: String,
-        require: true
-    },
-
     createdDate: {
         type: Date,
         default: Date.now,

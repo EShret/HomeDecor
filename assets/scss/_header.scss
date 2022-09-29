@@ -28,13 +28,37 @@
             .header__Item {
                 margin: 0px 35px 0px 0px;
 
-                a {
+                .header__link {
                     display: flex;
                     align-items: center;
 
                     img {
                         width: 25px;
                         margin: 0px 10px 0px 0px;
+                    }
+
+                    .cart_img {
+                        position: relative;
+
+                        .cart__length {
+                            background-color: $line;
+                            padding: 2px 0px 0px 0px;
+                            width: 15px;
+                            height: 15px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                            position: absolute;
+                            bottom: -20%;
+                            right: 10%;
+                            
+                            span {
+                                color: #fff;
+                                font-weight: 700;
+                                font-size: 11px;
+                            }
+                        }
                     }
 
                     span {

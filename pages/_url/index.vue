@@ -2,9 +2,7 @@
   <div class="catalogPG">
     <div class="container">
       <!-- bread crumbs -->
-      <div class="crumbs">
-        <span> Главная > Сезоны </span>
-      </div>
+      <Crumbs action="catalogs" :catalogs="catalogs" />
 
       <!-- subCatalog -->
       <div class="subCatalog" v-if="catalogs.subCatalogsName.length != 0">
@@ -15,6 +13,7 @@
         >
           <span>Все</span>
         </nuxt-link>
+
         <nuxt-link
           active-class="subCatalog__link-active"
           class="subCatalog__link"
@@ -22,7 +21,7 @@
           v-for="(catalog, index) in catalogs.subCatalogsName"
           :key="catalog._id"
         >
-          <span>{{ catalogs.subCatalogsName[index].subcatalogTitle }}</span>
+          <span>{{ catalog.subcatalogTitle }}</span>
         </nuxt-link>
       </div>
 
@@ -32,18 +31,21 @@
           <div class="sets__list">
             <nuxt-link
               class="set__link"
-              to="/catalog/set"
+              :to="`/${catalogs.catalogURL}/sets/${set._id}`"
               v-for="set in catalogFilter"
               :key="set._id"
             >
               <div class="set__img">
-                <img src="/img/catalog/img.jpg" class="img" alt="" />
+                <img
+                  :src="`/uploads/sets/${set.coverImageName[0]}`"
+                  class="img"
+                />
               </div>
             </nuxt-link>
           </div>
-          <nuxt-link class="more__button" to="/">
+          <!-- <nuxt-link class="more__button" to="/">
             <span>Просмотреть еще</span>
-          </nuxt-link>
+          </nuxt-link> -->
         </div>
       </div>
 
@@ -70,26 +72,22 @@ export default {
     }
   },
 
+  data: () => ({}),
+
+  mounted() {
+    var width__sec = $(".set__link").width();
+    $(".set__link").css("height", width__sec);
+  },
+
   computed: {
     catalogFilter: function () {
       return this.sets.filter((set) => {
-        // return this.filter == "all" || set.titleSets == this.filter;
         return (
-          this.catalogs.catalogTitle === set.catalogName[0].catalogTitle ||
-          this.catalogs.catalogTitle ===
-            (set.catalogName[1] != null
-              ? set.catalogName[1].catalogTitle
-              : "") ||
-          this.catalogs.catalogTitle ===
-            (set.catalogName[2] != null
-              ? set.catalogName[2].catalogTitle
-              : "") ||
-          this.catalogs.catalogTitle ===
-            (set.catalogName[3] != null
-              ? set.catalogName[3].catalogTitle
-              : "") ||
-          this.catalogs.catalogTitle ===
-            (set.catalogName[4] != null ? set.catalogName[4].catalogTitle : "")
+          set.catalogName[0] === this.catalogs.catalogTitle ||
+          set.catalogName[1] === this.catalogs.catalogTitle ||
+          set.catalogName[2] === this.catalogs.catalogTitle ||
+          set.catalogName[3] === this.catalogs.catalogTitle ||
+          set.catalogName[4] === this.catalogs.catalogTitle
         );
       });
     },

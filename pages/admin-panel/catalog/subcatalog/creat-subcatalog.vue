@@ -20,17 +20,6 @@
                 <input class="inptTxt" type="text" v-model="subcatalogTitle" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
-
-              <ValidationProvider
-                rules="required"
-                v-slot="{ errors }"
-                class="form__item w20"
-                tag="div"
-              >
-                <label>URL Подкатегории</label>
-                <input class="inptTxt" type="text" v-model="subCatalogURL" />
-                <span class="error-message">{{ errors[0] }}</span>
-              </ValidationProvider>
             </div>
 
             <!-- 4 row BUTTON -->
@@ -76,14 +65,12 @@ export default {
     postLoader: false,
 
     subcatalogTitle: "",
-    subCatalogURL: "",
   }),
 
   methods: {
     newSubCatalog() {
       let formData = new FormData();
       formData.append("subcatalogTitle", this.subcatalogTitle);
-      formData.append("subCatalogURL", this.subCatalogURL);
       axios
         .post(`/api/subcatalogs`, formData, {
           headers: {

@@ -30,6 +30,8 @@ db.once("open", () => console.log("============//connected to dataBase//========
 const authRoutes = require("./routes/auth");
 const emailRoutes = require("./routes/email");
 const paintingsRoutes = require("./routes/paintings");
+const framesRoutes = require("./routes/frames");
+const printSizeRoutes = require("./routes/printSize");
 const catalogsRoutes = require("./routes/catalogs");
 const subcatalogsRoutes = require("./routes/subcatalogs");
 const bannersRoutes = require("./routes/banners");
@@ -39,6 +41,8 @@ const setsRoutes = require("./routes/sets");
 app.use("/api/auth", authRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/paintings", paintingsRoutes);
+app.use("/api/frames", framesRoutes);
+app.use("/api/printSize", printSizeRoutes);
 app.use("/api/catalogs", catalogsRoutes);
 app.use("/api/subcatalogs", subcatalogsRoutes);
 app.use("/api/banners", bannersRoutes);

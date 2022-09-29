@@ -19,23 +19,7 @@ const setsSchema = new mongoose.Schema({
         type: Array
     },
 
-    subCatalogName1: {
-        type: Array
-    },
-
-    subCatalogName2: {
-        type: Array
-    },
-
-    subCatalogName3: {
-        type: Array
-    },
-
-    subCatalogName4: {
-        type: Array
-    },
-
-    subCatalogName5: {
+    subCatalogName: {
         type: Array
     },
 

@@ -10,30 +10,27 @@
 
         <div class="header__Item-list">
           <div class="header__Item">
-            <nuxt-link
-              active-class="header__link-active"
-              class="header__link"
-              to="/"
-            >
+            <nuxt-link class="header__link" to="/">
               <img src="/img/ico/insta.svg" />
               <span>Новинки каждый день</span>
             </nuxt-link>
           </div>
 
           <div class="header__Item">
-            <nuxt-link
-              active-class="header__link-active"
-              class="header__link"
-              to="/"
-            >
-              <img src="/img/ico/cart.svg" />
+            <nuxt-link class="header__link" to="/cart">
+              <div class="cart_img">
+                <img src="/img/ico/cart.svg" />
+                <div v-if="CART.length" class="cart__length">
+                  <span>{{ CART.length }}</span>
+                </div>
+              </div>
               <span>Корзина</span>
             </nuxt-link>
           </div>
 
-          <div class="burger">
+          <!-- <div class="burger">
             <span></span>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="menu__body-item">
@@ -44,5 +41,11 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters(["CART"]),
+  },
+};
 </script>

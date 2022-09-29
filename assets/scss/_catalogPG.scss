@@ -1,16 +1,17 @@
 .catalogPG {
-    padding: 180px 0px 0px 0px;
+    padding: 220px 0px 0px 0px;
     
     // sub__catalog
     .subCatalog {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         margin: 0px 0px 40px 0px;
 
         .subCatalog__link {
             font-weight: 300;
             padding: 10px 0px;
-            margin: 0px 25px 0px 0px;
+            margin: 0px 25px 10px 0px;
 
             &.subCatalog__link-active {
                 background-color: $blue;
@@ -35,20 +36,20 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
-                // justify-content: space-evenly;
 
                 .set__link {
+                    width: 22.5%;
                     margin: 0px 0px 40px 0px;
                     transition: 0.5s;
-            
+
                     &:hover {
                         transform: scale(1.01);
                         box-shadow: 5px 5px 15px 2px rgba(27, 27, 27, 0.3);
                     }
-            
+
                     .set__img {
-                        width: 320px;
-                        height: 320px;
+                        width: 100%;
+                        height: 100%;
                         border: 1px solid $backGrey;
                     }
                 }

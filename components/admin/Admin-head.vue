@@ -6,16 +6,49 @@
           <h1>Заказы</h1>
         </div>
 
+        <!-- ===##########===  paintings  ===##########=== -->
         <div v-if="this.action === 'paintings'" class="head__item">
           <h1>Картины</h1>
         </div>
 
+        <!-- ===##########===  paintings CREAT  ===##########=== -->
         <div v-if="this.action === 'paintingsCreat'" class="head__item">
           <h1>Картины</h1>
         </div>
 
+        <!-- ===##########===  paintings EDIT  ===##########=== -->
         <div v-if="this.action === 'paintingsEdit'" class="head__item">
           <h1>Картины</h1>
+        </div>
+
+        <!-- ===##########===  FRAMES  ===##########=== -->
+        <div v-if="this.action === 'frames'" class="head__item">
+          <h1>Рамки</h1>
+        </div>
+
+        <!-- ===##########===  FRAMES CREAT  ===##########=== -->
+        <div v-if="this.action === 'framesCreat'" class="head__item">
+          <h1>Рамки</h1>
+        </div>
+
+        <!-- ===##########===  FRAMES EDIT  ===##########=== -->
+        <div v-if="this.action === 'framesEdit'" class="head__item">
+          <h1>Рамки</h1>
+        </div>
+
+        <!-- ===##########===  PRINT SIZE  ===##########=== -->
+        <div v-if="this.action === 'printSize'" class="head__item">
+          <h1>Размеры печати</h1>
+        </div>
+
+        <!-- ===##########===  PRINT SIZE CREAT  ===##########=== -->
+        <div v-if="this.action === 'printSizeCreat'" class="head__item">
+          <h1>Размеры печати</h1>
+        </div>
+
+        <!-- ===##########===  PRINT SIZE EDIT  ===##########=== -->
+        <div v-if="this.action === 'printSizeEdit'" class="head__item">
+          <h1>Размеры печати</h1>
         </div>
 
         <!-- ===##########===  SETS  ===##########=== -->
@@ -33,38 +66,47 @@
           <h1>Сеты</h1>
         </div>
 
+        <!-- ===##########===  catalog  ===##########=== -->
         <div v-if="this.action === 'catalog'" class="head__item">
           <h1>Категории</h1>
         </div>
 
+        <!-- ===##########===  catalog Creat  ===##########=== -->
         <div v-if="this.action === 'catalogCreat'" class="head__item">
           <h1>Категории</h1>
         </div>
 
+        <!-- ===##########===  catalog EDIT  ===##########=== -->
         <div v-if="this.action === 'catalogsEdit'" class="head__item">
           <h1>Категории</h1>
         </div>
 
+        <!-- ===##########===  subcatalog  ===##########=== -->
         <div v-if="this.action === 'subcatalog'" class="head__item">
           <h1>Подкатегории</h1>
         </div>
 
+        <!-- ===##########===  subcatalog Creat  ===##########=== -->
         <div v-if="this.action === 'subcatalogCreat'" class="head__item">
           <h1>Подкатегории</h1>
         </div>
 
+        <!-- ===##########===  subcatalog EDIT  ===##########=== -->
         <div v-if="this.action === 'subcatalogsEdit'" class="head__item">
           <h1>Подкатегории</h1>
         </div>
 
+        <!-- ===##########===  banners  ===##########=== -->
         <div v-if="this.action === 'banners'" class="head__item">
           <h1>Баннеры</h1>
         </div>
 
+        <!-- ===##########===  banners CREAT  ===##########=== -->
         <div v-if="this.action === 'bannersCreat'" class="head__item">
           <h1>Баннеры</h1>
         </div>
 
+        <!-- ===##########===  banners EDIT  ===##########=== -->
         <div v-if="this.action === 'bannersEdit'" class="head__item">
           <h1>Баннеры</h1>
         </div>
@@ -83,23 +125,107 @@
         </div>
       </div>
 
+      <!-- ======================================================================================================  -->
+      <!-- ======================================================================================================  -->
+      <!-- ======================================================================================================  -->
+      <!-- ======================================================================================================  -->
+
+      <!-- ===##########===  ORDERS  ===##########=== -->
       <div v-if="this.action === 'orders'" class="head__body-bottom">
         <span>Список Заказов</span>
       </div>
 
+      <!-- ===##########===  PAINTINGS  ===##########=== -->
       <div v-if="this.action === 'paintings'" class="head__body-bottom">
         <span>Список Картин</span>
-        <nuxt-link class="addLink" to="/admin-panel/paintings/creat-paintings">
-          Добавить <b>+</b>
-        </nuxt-link>
+        <div class="head__button">
+          <nuxt-link
+            class="addLink"
+            to="/admin-panel/paintings/creat-paintings"
+          >
+            Добавить <b>+</b>
+          </nuxt-link>
+
+          <nuxt-link
+            class="addLink subcatalog"
+            to="/admin-panel/paintings/frames"
+          >
+            <span>Рамки</span>
+            <img src="/img/ico/arrow-white.svg" alt="" />
+          </nuxt-link>
+
+          <nuxt-link
+            class="addLink subcatalog"
+            to="/admin-panel/paintings/print-size"
+          >
+            <span>Размеры печати</span>
+            <img src="/img/ico/arrow-white.svg" alt="" />
+          </nuxt-link>
+        </div>
       </div>
 
+      <!-- ===##########===  PAINTINGS  ===##########=== -->
       <div v-if="this.action === 'paintingsCreat'" class="head__body-bottom">
         <span>Добавление Картины</span>
       </div>
 
+      <!-- ===##########===  PAINTINGS  ===##########=== -->
       <div v-if="this.action === 'paintingsEdit'" class="head__body-bottom">
         <span>Изменение Картины</span>
+      </div>
+
+      <!-- ===##########===  FRAMES  ===##########=== -->
+      <div v-if="this.action === 'frames'" class="head__body-bottom">
+        <span>Список Рамок</span>
+        <div class="head__button">
+          <nuxt-link
+            class="addLink"
+            to="/admin-panel/paintings/frames/creat-frames"
+          >
+            Добавить <b>+</b>
+          </nuxt-link>
+          <nuxt-link class="addLink catalogBack" to="/admin-panel/paintings">
+            <img src="/img/ico/arrow-white-back.svg" alt="" />
+            <span>Картины</span>
+          </nuxt-link>
+        </div>
+      </div>
+
+      <!-- ===##########===  FRAMES  ===##########=== -->
+      <div v-if="this.action === 'framesCreat'" class="head__body-bottom">
+        <span>Добавление Рамки</span>
+      </div>
+
+      <!-- ===##########===  FRAMES  ===##########=== -->
+      <div v-if="this.action === 'framesEdit'" class="head__body-bottom">
+        <span>Изменение Рамки</span>
+      </div>
+
+      <!-- ===##########===  PRINT SIZE  ===##########=== -->
+      <div v-if="this.action === 'printSize'" class="head__body-bottom">
+        <span>Список Размеров печати</span>
+        <div class="head__button">
+          <nuxt-link
+            class="addLink"
+            to="/admin-panel/paintings/print-size/creat-print-size"
+          >
+            Добавить <b>+</b>
+          </nuxt-link>
+          <nuxt-link class="addLink catalogBack" to="/admin-panel/paintings">
+            <img src="/img/ico/arrow-white-back.svg" alt="" />
+            <span>Картины</span>
+          </nuxt-link>
+        </div>
+      </div>
+
+      <!-- ===##########===  PRINT SIZE  ===##########=== -->
+      <div v-if="this.action === 'printSizeCreat'" class="head__body-bottom">
+        <span>Добавление Размеров печати</span>
+      </div>
+
+      <!-- ===##########===  PRINT SIZE  ===##########=== -->
+      <div v-if="this.action === 'printSizeEdit'" class="head__body-bottom">
+        <span>Изменение Размеров печати</span>
       </div>
 
       <!-- ===##########===  SETS  ===##########=== -->

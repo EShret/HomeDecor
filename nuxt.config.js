@@ -32,6 +32,11 @@ module.exports = {
         src: "/js/swiper-bundle.min.js",
         body: true,
       },
+
+      {
+        src: "/js/jquery.maskedinput.js",
+        body: true,
+      },
     ],
   },
 

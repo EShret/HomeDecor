@@ -1,0 +1,98 @@
+.myMultiselect {
+    width: 100%;
+    min-height: 35px;
+    border: 1px solid #ABABAB;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 0px 0px 15px 0px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .myMultiselect__selected {
+        border-radius: 8px;
+        background-color: $green;
+        padding: 7px 10px;
+        padding-right: 0;
+        margin: 3px;
+        display: flex;
+        align-items: center;
+
+        .myMultiselect__selected-txt {
+            color: white;
+            font-size: 15px;
+        }
+
+        .myMultiselect__remove {
+            cursor: pointer;
+            display: block;
+            margin: 0px 8px 0px 10px;
+
+            &:hover {
+                color: $line;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .myMultiselect__selected-placeholder {
+        font-size: 14px;
+        color: #ABABAB;
+    }
+
+    .myMultiselect__options {
+        position: absolute;
+        left: 0;
+        overflow-y: auto;
+        height: 200px;
+        width: 100%;
+        border: 1px solid #ABABAB;
+        border-radius: 10px;
+        background-color: white;
+        z-index: 10000;
+
+        .myMultiselect__option {
+            // margin: 15px 5px;
+            padding: 15px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+                background-color: #efefef;
+            }
+
+            .myMultiselect__check {
+                width: 20px;
+                height: 20px;
+                border: 1px solid #ABABAB;
+                margin: 0px 10px 0px 0px;
+                position: relative;
+            }
+        }
+
+        .myMultiselect__option--checked {
+            color: $green;
+            font-weight: 700;
+
+            .myMultiselect__check {
+                border: 1px solid $green;
+                background-color: $green;
+
+                &::after {
+                    content: "";
+                    width: 11px;
+                    height: 6px;
+                    border-left: 2px solid white;
+                    border-bottom: 2px solid white;
+                    position: absolute;
+                    top: 4px;
+                    left: 3.5px;
+                    transform: rotate(-45deg);
+                    z-index: 999999;
+                }
+            }
+        }
+    }
+}

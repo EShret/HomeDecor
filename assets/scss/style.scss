@@ -3,9 +3,11 @@
 @import "_fonts";
 @import "_repeat";
 @import "_header";
+@import "_selectedCatalog";
 @import "_home";
 @import "_catalogPG";
 @import "_setPG";
+@import "_cart";
 @import "_footer";
 
 @import "admin/admin";
@@ -14,6 +16,7 @@
 @import "admin/list";
 @import "admin/creat";
 @import "admin/edit";
+@import "admin/custom-select";
 @import "admin/vue-multiselect";
 
 body {
