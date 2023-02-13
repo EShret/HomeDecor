@@ -1,7 +1,7 @@
 <template>
   <div class="paintingsListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="paintings" />
+    <Admin-head action="paintings" :paintings="paintings" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -9,6 +9,10 @@
         <div class="content__body-head">
           <span class="w5">№</span>
           <span class="w35">Наименование</span>
+          <span class="w15"></span>
+          <span class="w15"></span>
+          <span class="w15"></span>
+          <span class="w15"> </span>
         </div>
 
         <div

@@ -1,7 +1,7 @@
 <template>
   <div class="bannersEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="bannersEdit" />
+    <Admin-head action="bannersEdit" :banners="allbanners" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -32,7 +32,7 @@
                   type="file"
                   id="file"
                   ref="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
@@ -40,6 +40,17 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span v-if="allbanners[0].titleBanner === banners.titleBanner">
+                  <b>1920x650 px</b>
+                </span>
+
+                <span v-else>
+                  <b>1220x250 px</b>
+                </span>
+              </div>
+
               <div class="addFileName">
                 <span>{{ file.name }}</span>
               </div>
@@ -50,9 +61,32 @@
                 </button>
               </div>
 
-              <div class="coverIMG banner">
+              <div class="coverIMG bannersEditIMG">
                 <img
                   :src="`/uploads/banners/${banners.coverImageName.filename}`"
+                />
+              </div>
+            </div>
+
+            <!-- 1 row -->
+            <div
+              class="form__row"
+              v-if="allbanners[0].titleBanner != banners.titleBanner"
+            >
+              <div class="form__item w15">
+                <label>Ссылка</label>
+                <input class="inptTxt" type="text" v-model="linkBanner" />
+              </div>
+
+              <div class="form__item newTabLink">
+                <label for="checkbox-Link">
+                  Открывать сслыку в новом окне?
+                </label>
+                <input
+                  type="checkbox"
+                  id="checkbox-Link"
+                  value="true"
+                  v-model="newTabLink"
                 />
               </div>
             </div>
@@ -99,9 +133,11 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const banners = await $axios.get(`/api/banners/${params.id}`);
+      const allbanners = await $axios.$get(`/api/banners`);
 
       return {
         banners: banners.data,
+        allbanners,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -115,6 +151,8 @@ export default {
     file: "",
     coverImageName: "",
     titleBanner: "",
+    linkBanner: "",
+    newTabLink: false,
   }),
 
   methods: {
@@ -130,6 +168,8 @@ export default {
       }
       let formData = {
         titleBanner: this.titleBanner,
+        linkBanner: this.linkBanner,
+        newTabLink: this.newTabLink,
         coverImageName: finalImages,
       };
       axios
@@ -144,10 +184,20 @@ export default {
           setTimeout(() => {
             this.$router.push("/admin-panel/banners");
           }, 500),
-            this.$toast.success("Проект обновлен 👍🏼", { duration: 5000 });
+            this.$toast.success(`"${this.titleBanner}" обновлена 👍🏼`, {
+              duration: 5000,
+            });
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message, { duration: 5000 });
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
         });
     },
 
@@ -179,6 +229,8 @@ export default {
 
   mounted() {
     this.titleBanner = this.banners.titleBanner;
+    this.linkBanner = this.banners.linkBanner;
+    this.newTabLink = this.banners.newTabLink;
     this.coverImageName = this.banners.coverImageName;
   },
 };

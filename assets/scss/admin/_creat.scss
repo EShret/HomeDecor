@@ -1,6 +1,130 @@
-.paintingsCreatAdmin, .catalogCreatAdmin, .setsCreatAdmin, .framesCreatAdmin, .printSizeCreatAdmin {
+.paintingsCreatAdmin, .catalogCreatAdmin, .setsCreatAdmin, .framesCreatAdmin, .printSizeCreatAdmin, .firstSecHPCreatAdmin, .reviewersCreatAdmin, .photoCommentsCreatAdmin {
     width: 100%;
     height: 100%;
+}
+
+.ordersEditAdmin {
+    .content__body {
+        display: flex;
+        flex-direction: row;
+
+        .orderSetsList {
+            width: 55%;
+            padding: 10px 10px 0px 30px;
+
+            .emptyFrame {
+                width: 100%;
+                height: 15px;
+            }
+        }
+
+        .form {
+            width: 45%;
+
+            .form__body {
+                width: 100%;
+                
+                .form__row {
+                    width: 100%;
+                    display: flex;
+                    // flex-direction: column;
+                    // align-items: center;
+
+                    &.name {
+                        padding: 20px 0px 0px 0px;
+                        width: 70%;
+                        border-top: 2px solid $stroke;
+                    }
+
+                    .form__row-body {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
+
+                    .buttonAddToCart {
+                        display: flex;
+                        justify-content: center;
+
+                        button {
+                            height: 30px;
+                            background-color: $green;
+                            color: #fff;
+                            border-radius: 10px;
+                        }
+                    }
+
+                    .form__item {
+                        margin: 0;
+
+                        &.totalCost {
+                            background-color: $blue;
+                            color: #fff;
+                            display: flex;
+                            align-items: center;
+                            padding: 10px 15px;
+                            border-radius: 10px;
+
+                            span {
+                                &:first-child {
+                                    margin: 0px 0px 7px 0px;
+                                    font-weight: 300;
+                                }
+
+                                &:last-child {
+                                    margin: 0;
+                                    font-weight: 700;
+                                }
+                            }
+                        }
+
+                        &.painAndSize {
+                            margin: 0px 30px 0px 0px;
+                        }
+                        
+                        span {
+                            margin: 0px 0px 10px 0px;
+                        }
+
+                        .textareaTxt {
+                            width: 100%;
+                            height: 150px;
+                            border: 1px solid #ABABAB;
+                            border-radius: 10px;
+                            padding: 5px 10px;
+                            margin: 0px 0px 5px 0px;
+                            resize: none;
+                        }
+
+                        select {
+                            width: 100%;
+                            height: 30px;
+                            border: 1px solid #ABABAB;
+                            border-radius: 10px;
+                            padding: 5px 10px;
+                            margin: 10px 0px 5px 0px;
+                        }
+                    }
+                    
+                    .input {
+                        display: flex;
+                        align-items: center;
+                        margin: 0px 20px 20px 0px;
+
+                        label {
+                            margin: 0px 10px 0px 0px;
+                        }
+
+                        .radio {}
+                    }
+                }
+            }
+
+            .emptyBl {
+                height: 20px;
+            }
+        }
+    }
 }
 
 .form {
@@ -21,6 +145,12 @@
             align-items: center;
             margin: 0px 10px 20px 0px;
 
+            span.warning {
+                color: $line;
+                font-weight: 700;
+                margin: 0px 0px 20px 0px;
+            }
+
             .indexnum {
                 display: flex;
                 color: $line;
@@ -32,6 +162,19 @@
                 display: flex;
                 flex-direction: column;
                 margin: 0px 30px 0px 0px;
+
+                &.newTabLink {
+                    display: flex;
+                    flex-direction: row;
+            
+                    label {
+                        margin: 0px 10px 0px 0px;
+                    }
+            
+                    input {
+                        transform: scale(1.2);
+                    }
+                }
 
                 label {
                     font-size: 15px;
@@ -45,6 +188,13 @@
                     border-radius: 10px;
                     padding: 5px 10px;
                     margin: 0px 0px 5px 0px;
+                }
+
+                textarea.inptTxt {
+                    width: 100%;
+                    height: 150px;
+                    resize: none;
+                    padding: 10px;
                 }
 
                 #file, #files {
@@ -73,6 +223,15 @@
             
                 .add__files-button:hover {
                     transform: scale(1.05);
+                }
+            }
+
+            .imgSize {
+                margin: 0px 20px 0px 0px;
+                
+                span {
+                    font-size: 14px;
+                    color: $crumps;
                 }
             }
 
@@ -141,11 +300,7 @@
             }
 
             .coverIMG {
-                width: calc(180px + (300 - 180) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
-                height: calc(180px + (300 - 180) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
                 position: absolute;
-                top: 10%;
-                right: 5%;
                 border-radius: 10px;
                 overflow: hidden;
 
@@ -157,14 +312,61 @@
                 }
             }
 
-            .coverIMG.banner {
-                width: calc(380px + (500 - 380) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
-                height: calc(180px + (300 - 180) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
-                position: absolute;
-                top: 30%;
-                right: 15%;
-                border-radius: 10px;
-                overflow: hidden;
+            .coverIMG.paintingsEditIMG.vertical {
+                width: calc(200px + (250 - 200) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 23%;
+                right: 30%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.paintingsEditIMG.horizontal {
+                width: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(200px + (250 - 200) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 23%;
+                right: 30%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.framesEditIMG {
+                width: calc(200px + (250 - 200) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 10%;
+                right: 40%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.photoCommentsEditIMG {
+                width: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 60%;
+                right: 30%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.rewieversEditIMG {
+                width: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 35%;
+                right: 38%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.firstSecHPEditIMG {
+                width: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                top: 35%;
+                right: 25%;
+                border: 1px solid black;
+            }
+
+            .coverIMG.bannersEditIMG {
+                // width: calc(300px + (400 - 300) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                // height: calc(265px + (315 - 265) * ((100vw - $minimalSW_PX) / (1920 - $minimalSW)));
+                width: 500px;
+                top: 25%;
+                right: 18%;
+                border: 1px solid black;
             }
         }
     }

@@ -1,0 +1,73 @@
+    // ==========================
+    //.         TABLET
+    // ==========================
+
+@media (max-width: $md2+px) {
+    .header {
+        height: 70px;
+        background-color: rgba(245, 231, 211, 1);
+
+        .menu__body {
+            .menu__logo {
+                img {
+                    width: 45px;
+                }
+            }
+
+            .header__box {
+                display: flex;
+                flex-direction: row;
+
+                img {
+                    width: 25px;
+                }
+
+                .box__item {
+                    &:first-child {
+                        margin: 0px 0px 0px 0px;
+                    }
+
+                    .tel {
+                        margin: 0px 20px 0px 0px;
+                    }
+
+                    .insta {
+                        margin: 0px 20px 0px 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+    // ==========================
+    //.        MOBILE
+    // ==========================
+
+@media (max-width: $md4+px) {
+    .header {
+        .menu__body {
+            .menu__logo {
+                img {
+                    width: 40px;
+                }
+            }
+
+            .header__box {
+                span {
+                    display: none;
+                }
+
+                .box__item {
+                    .tel {
+                        margin: 0px 10px 0px 0px;
+                    }
+
+                    .insta {
+                        margin: 0px 10px 0px 0px;
+                    }
+                }
+            }
+        }
+    }
+}

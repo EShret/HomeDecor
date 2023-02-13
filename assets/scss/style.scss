@@ -2,13 +2,26 @@
 @import "_null";
 @import "_fonts";
 @import "_repeat";
+@import "_catalogHeader";
 @import "_header";
 @import "_selectedCatalog";
 @import "_home";
+@import "_gridSets";
 @import "_catalogPG";
 @import "_setPG";
+@import "_photoComments";
 @import "_cart";
+@import "_prices";
+@import "_frames";
+@import "_deliveryPayment";
 @import "_footer";
+
+@import "adaptive/_home";
+@import "adaptive/_header";
+@import "adaptive/_categoryList";
+@import "adaptive/_repeat";
+@import "adaptive/_gridSets";
+@import "adaptive/_footer";
 
 @import "admin/admin";
 @import "admin/auth";
@@ -91,7 +104,7 @@ body {
 
 // <ОСНОВНАЯ СЕТКА> ==============================================================================
 .container {
-    max-width: $maxWidthContainer+px;
+    max-width: $maxWidthContainer + px;
     width: 100%;
     margin: 0 auto;
 
@@ -125,7 +138,6 @@ body {
 .page-leave-active {
     opacity: 0;
 }
-
 
 .layout-enter-active,
 .layout-leave-active {

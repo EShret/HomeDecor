@@ -1,7 +1,7 @@
 {
   "name": "HomeDecor",
   "version": "1.0.0",
-  "description": "Emal",
+  "description": "HomeDecor",
   "author": "Eshret Nohurov",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/auth": "4.9.1",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/date-fns": "^1.5.0",
     "@nuxtjs/toast": "^3.3.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
@@ -23,10 +24,12 @@
     "express": "^4.17.1",
     "express-jwt": "^5.3.3",
     "fs": "^0.0.1-security",
+    "gm": "^1.25.0",
     "helmet": "^4.4.1",
+    "jimp": "^0.16.2",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.3",
+    "mongoose": "^5.13.3", 
     "multer": "^1.4.2",
     "net": "^1.0.2",
     "node-fetch": "3.0.0-beta.9",
@@ -35,6 +38,7 @@
     "nuxt-lazy-load": "^1.2.9",
     "scrollmagic": "^2.0.8",
     "vee-validate": "^3.4.5",
+    "vue-input-facade": "^2.0.1",
     "vue-multiselect": "^2.1.6",
     "vue-scroll-class": "^1.2.3"
   },

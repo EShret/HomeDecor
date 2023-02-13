@@ -1,7 +1,7 @@
 <template>
   <div class="catalogsEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="catalogsEdit" />
+    <Admin-head action="catalogsEdit" :catalog="allCatalogs" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -29,6 +29,17 @@
               >
                 <label>URL Категории</label>
                 <input class="inptTxt" type="text" v-model="catalogURL" />
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Приоритет</label>
+                <input class="inptTxt" type="number" v-model="priority" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
@@ -102,7 +113,9 @@ export default {
     try {
       const catalogs = await $axios.$get(`/api/catalogs/${params.id}`);
       const subcatalogs = await $axios.$get(`/api/subcatalogs`);
-      return { catalogs, subcatalogs };
+      const allCatalogs = await $axios.$get(`/api/catalogs`);
+
+      return { catalogs, subcatalogs, allCatalogs };
     } catch (e) {
       error({ statusCode: e.response.status });
     }
@@ -115,6 +128,7 @@ export default {
 
     catalogTitle: "",
     catalogURL: "",
+    priority: 0,
     subCatalogsName: [],
   }),
 
@@ -123,6 +137,7 @@ export default {
       let formData = {
         catalogTitle: this.catalogTitle,
         catalogURL: this.catalogURL,
+        priority: this.priority,
         subCatalogsName: JSON.stringify(this.subCatalogsName),
       };
       axios
@@ -140,7 +155,15 @@ export default {
             this.$toast.success("Категория обновлена 👍🏼", { duration: 5000 });
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message, { duration: 5000 });
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
         });
     },
   },
@@ -148,6 +171,7 @@ export default {
   mounted() {
     this.catalogTitle = this.catalogs.catalogTitle;
     this.catalogURL = this.catalogs.catalogURL;
+    this.priority = this.catalogs.priority;
     this.subCatalogsName = this.catalogs.subCatalogsName;
   },
 };

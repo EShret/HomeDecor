@@ -1,13 +1,18 @@
 <template>
   <div class="framesCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="framesCreat" />
+    <Admin-head action="framesCreat" :frames="frames" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- ROW -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,12 @@
                 tag="div"
               >
                 <label>Наименование Рамы</label>
-                <input class="inptTxt" type="text" v-model="frameName" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="Рама дерево"
+                  v-model="frameName"
+                />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -32,7 +42,7 @@
                   type="file"
                   id="file"
                   ref="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
@@ -40,6 +50,13 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span>
+                  <b>520x740 px</b>
+                </span>
+              </div>
+
               <div class="addFileName">
                 <span>{{ file.name }}</span>
               </div>
@@ -114,6 +131,18 @@ export default {
     ValidationObserver,
   },
 
+  async asyncData({ $axios, error }) {
+    try {
+      const frames = await $axios.$get(`/api/frames`);
+
+      return {
+        frames,
+      };
+    } catch (e) {
+      error({ statusCode: e.response.status });
+    }
+  },
+
   data: () => ({
     postLoader: false,
     file: "",
@@ -149,9 +178,17 @@ export default {
           }, 500),
             this.$toast.success("Рама создана 👍🏼", { duration: 6000 });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
 
     handleFileUpload() {

@@ -1,13 +1,18 @@
 <template>
   <div class="setsCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="setsCreat" />
+    <Admin-head action="setsCreat" :sets="sets" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- row  -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,12 @@
                 tag="div"
               >
                 <label>Наименование Cета</label>
-                <input class="inptTxt" type="text" v-model="titleSets" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="Новый сет"
+                  v-model="titleSets"
+                />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -32,7 +42,7 @@
                   type="file"
                   id="file"
                   ref="files"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   multiple
                   @change="handleFileUpload()"
                 />
@@ -42,6 +52,12 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span>
+                  <b>1200x1200 px</b>
+                </span>
+              </div>
 
               <div class="addFileName">
                 <ul>
@@ -95,7 +111,7 @@
               >
                 <label> Выбор Категории </label>
                 <span style="color: red" v-if="catalogName.length >= 5">
-                  Нельзя выбрать больше 5 категорий на один сет
+                  Нельзя выбрать больше 20 категорий на один сет
                 </span>
                 <br />
                 <!-- CATALOG  -->
@@ -206,11 +222,13 @@ export default {
       const paintings = await $axios.$get(`/api/paintings`);
       const subcatalogs = await $axios.$get(`/api/subcatalogs`);
       const catalogs = await $axios.$get(`/api/catalogs`);
+      const sets = await $axios.$get(`/api/sets`);
 
       return {
         paintings,
         catalogs,
         subcatalogs,
+        sets,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -265,9 +283,17 @@ export default {
           }, 800),
             this.$toast.success("Сет создан 👍🏼", { duration: 6000 });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
 
     handleFileUpload() {

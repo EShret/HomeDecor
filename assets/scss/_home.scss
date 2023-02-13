@@ -7,6 +7,8 @@
 
         .head {
             position: relative;
+            height: calc(300px + (650 - 300) * ((100vw - 992px) / (1920 - 992)));
+            // height: 650px;
 
             .head-img {
                width: 100%;
@@ -52,6 +54,244 @@
                 }
             }
         }
+                // ==========================
+                //. alterableCardList SECTION
+                // ==========================
+        .alterableCardList {
+            margin: 0px 0px 75px 0px;
+
+            .title {
+                display: flex;
+                justify-content: center;
+                margin: 0px 0px 40px 0px;
+            }
+
+            .cardList {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .card__link {
+                    width: 23%;
+
+                    &:hover {
+                        .card__img {
+                            img {
+                                transform: scale(1.025);
+                            }
+                        }
+                    }
+
+                    .card__img {
+                        width: 100%;
+                        margin: 0px 0px 15px 0px;
+                        overflow: hidden;
+                        border: 1px solid $stroke;
+
+                        img {
+                            transition: 0.5s;
+                        }
+                    }
+
+                    .card__title {
+                        margin: 0px 0px 10px 0px;
+                        height: 47px;
+                        overflow: hidden;
+                        display: flex;
+                        align-items: center;
+
+                        span {
+                            font-size: 18px;
+                            font-weight: 700;
+                            line-height: 130%;
+                        }
+                    }
+
+                    .card__desc {
+                        height: 110px;
+                        overflow: hidden;
+                        display: flex;
+                    }
+                }
+            }
+        }
+
+                // ==========================
+                //. photo__comments SECTION
+                // ==========================
+
+        .phComments {
+            margin: 0px 0px 75px 0px;
+
+            .title {
+                display: flex;
+                justify-content: center;
+                margin: 0px 0px 40px 0px;
+            }
+
+            .phComments__list {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin: 0px 0px 60px 0px;
+
+                .phComment__link {
+                    width: 23%;
+
+                    &:hover {
+                        .phComment__img {
+                            img {
+                                transform: scale(1.025);
+                            }
+                        }
+                    }
+
+                    .phComment__img {
+                        width: 100%;
+                        overflow: hidden;
+                        border: 1px solid $stroke;
+                        margin: 0px 0px 15px 0px;
+
+                        img {
+                            transition: .5s;
+                        }
+                    }
+
+                    .reviewer {
+                        display: flex;
+                        flex-direction: row;
+
+                        .reviewer__img {
+                            width: 30px;
+                            height: 30px;
+                            margin: 0px 10px 0px 0px;
+
+                            img {
+                                border-radius: 50%;
+                            }
+                        }
+
+                        .reviewer__txt {
+                            display: flex;
+                            flex-direction: column;
+
+                            span {
+                                &:first-child {
+                                    font-size: 13px;
+                                    opacity: .8;
+                                    margin: 0px 0px 2px 0px;
+                                }
+
+                                &:last-child {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .moreButton {
+                display: flex;
+                justify-content: center;
+
+                a {
+                    position: relative;
+                    padding: 5px 10px;
+
+                    &:hover {
+                        &::after {
+                            width: 100%;
+                        }
+                    }
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 0%;
+                        height: 2px;
+                        background-color: $line;
+                        border-radius: 20px;
+                        transition: 0.5s;
+                    }
+                }
+            }
+        }
+
+                // ==========================
+                //.  answersQuestions SECTION
+                // ==========================
+
+        .answersQuestions {
+            margin: 0px 0px 75px 0px;
+
+            .title {
+                display: flex;
+                justify-content: center;
+                margin: 0px 0px 50px 0px;
+            }
+
+            .answersQuestions__body {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin: 0px 0px 50px 0px;
+
+                .item {
+                    width: 23%;
+
+                    .item__title {
+                        display: block;
+                        font-weight: 700;
+                        font-size: 17px;
+                        text-transform: uppercase;
+                        line-height: 130%;
+                        margin: 0px 0px 10px 0px;
+
+                        b {
+                            font-weight: 700;
+                            font-size: 15px;
+                            opacity: .5;
+                        }
+                    }
+
+                    .item__desc {
+                        font-size: 17px;
+                        line-height: 130%;
+                    }
+                }
+            }
+            
+            .moreButton {
+                display: flex;
+                justify-content: center;
+
+                a {
+                    position: relative;
+                    padding: 5px 10px;
+
+                    &:hover {
+                        &::after {
+                            width: 100%;
+                        }
+                    }
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 0%;
+                        height: 2px;
+                        background-color: $line;
+                        border-radius: 20px;
+                        transition: 0.5s;
+                    }
+                }
+            }
+        }
 
                 // ==========================
                 //.  new__products SECTION
@@ -80,20 +320,6 @@
                         a {
                             width: 100%;
                             height: 100%;
-                        }
-                    }
-                }
-
-                .gift {
-                    margin: 25px 0px 65px 0px;
-
-                    .gift__bg {
-                        width: 100%;
-                        display: flex;
-                        justify-content: center;
-
-                        img {
-                            width: 85%;
                         }
                     }
                 }
@@ -135,7 +361,7 @@
         //.  advert SECTION
         // ==========================
         .advert {
-            margin: 0px 0px 60px 0px;
+            margin: 10px 0px 50px 0px;
         }
 
         // ==========================

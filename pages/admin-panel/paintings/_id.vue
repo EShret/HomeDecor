@@ -1,7 +1,7 @@
 <template>
   <div class="paintingsEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="paintingsEdit" />
+    <Admin-head action="paintingsEdit" :paintings="AllPaintings" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -24,6 +24,20 @@
               <ValidationProvider
                 rules="required"
                 v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Выбор ориентации постера</label>
+                <select class="inptTxt" v-model="orientation">
+                  <option value="horizontal">Горизонтальная</option>
+                  <option value="vertical">Вертикальная</option>
+                </select>
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
                 class="form__item w10"
                 tag="div"
               >
@@ -32,7 +46,7 @@
                   type="file"
                   id="file"
                   ref="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
@@ -40,6 +54,14 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span>
+                  vertival: <b>520x740 px</b> <br />
+                  horizontal: <b>740x520 px</b>
+                </span>
+              </div>
+
               <div class="addFileName">
                 <span>{{ file.name }}</span>
               </div>
@@ -50,7 +72,7 @@
                 </button>
               </div>
 
-              <div class="coverIMG">
+              <div class="coverIMG paintingsEditIMG" :class="orientation">
                 <img
                   :src="`/uploads/paintings/${paintings.coverImageName.filename}`"
                 />
@@ -65,7 +87,7 @@
                 class="form__item w40"
                 tag="div"
               >
-                <label>Размеры печати</label>
+                <label>Размеры печати и рамы</label>
                 <!-- Size POST -->
                 <multiselect
                   class="multiselect"
@@ -82,7 +104,8 @@
             </div>
 
             <!-- ROW -->
-            <div class="form__row">
+            <!-- Size Frames -->
+            <!-- <div class="form__row">
               <ValidationProvider
                 rules="required"
                 v-slot="{ errors }"
@@ -90,7 +113,6 @@
                 tag="div"
               >
                 <label>Размеры Рам</label>
-                <!-- Size Frames -->
                 <multiselect
                   class="multiselect"
                   v-model="sizeFrame"
@@ -103,7 +125,7 @@
                 ></multiselect>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
-            </div>
+            </div> -->
 
             <!-- 4 row -->
             <div class="form__row">
@@ -149,12 +171,14 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const paintings = await $axios.get(`/api/paintings/${params.id}`);
+      const AllPaintings = await $axios.$get(`/api/paintings`);
       const printSize = await $axios.$get(`/api/printSize`);
       const frames = await $axios.$get(`/api/frames`);
 
       return {
         paintings: paintings.data,
         printSize,
+        AllPaintings,
         frames,
       };
     } catch (e) {
@@ -168,8 +192,8 @@ export default {
     postLoader: false,
 
     title: "",
+    orientation: "",
     printSizePost: [],
-    sizeFrame: [],
 
     file: "",
     coverImageName: "",
@@ -188,8 +212,8 @@ export default {
       }
       let formData = {
         title: this.title,
+        orientation: this.orientation,
         printSizePost: JSON.stringify(this.printSizePost),
-        sizeFrame: JSON.stringify(this.sizeFrame),
 
         coverImageName: finalImages,
       };
@@ -208,7 +232,15 @@ export default {
             this.$toast.success("Проект обновлен 👍🏼", { duration: 5000 });
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message, { duration: 5000 });
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
         });
     },
 
@@ -221,6 +253,7 @@ export default {
       let formData = new FormData();
       let file = this.file;
       formData.append("file", file);
+      formData.append("orientation", this.orientation);
       axios
         .post(`/api/paintings/addFile`, formData, {
           headers: {
@@ -240,8 +273,8 @@ export default {
 
   mounted() {
     this.title = this.paintings.title;
+    this.orientation = this.paintings.orientation;
     this.printSizePost = this.paintings.printSizePost;
-    this.sizeFrame = this.paintings.sizeFrame;
 
     this.coverImageName = this.paintings.coverImageName;
   },

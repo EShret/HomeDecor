@@ -1,0 +1,69 @@
+// ==========================
+//.    category SECTION
+// ==========================
+
+// ==========================
+//.         TABLET
+// ==========================
+
+@media (max-width: $md2+px) {
+    .shell__categoryList-hp {
+        .category {
+            padding: 15px 20px;
+        }
+    }
+
+    .category {
+        &.sticky {
+            top:70px;
+        }
+    }
+}
+
+// ==========================
+//.        MOBILE
+// ==========================
+
+@media (max-width: $md4+px) {
+    .shell__categoryList-hp {
+        .category {
+            padding: 15px 15px;
+        }
+    }
+    
+    .category {
+        .container {
+            .category__list {
+                .swiper-wrapper {
+                    .swiper-slide {
+                        .category__item {
+                            span {
+                               font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .slider__nav {
+                .slider-button-prev {
+                    width: 28px;
+                    height: 28px;
+
+                    img {
+                        width: 12px;
+                    }
+                }
+
+                .slider-button-next {
+                    width: 28px;
+                    height: 28px;
+
+                    img {
+                        width: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

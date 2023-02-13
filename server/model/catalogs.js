@@ -5,6 +5,12 @@ const path = require("path");
 const coverImageBasePath = "/uploads/catalogs"
 
 const catalogsSchema = new mongoose.Schema({
+
+    priority: {
+        type: Number,
+        require: true
+    },
+
     catalogTitle: {
         type: String,
         require: true

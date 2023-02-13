@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <header class="header catalog__header">
+    <header class="catalog__header">
       <CatalogHeader />
     </header>
 

@@ -3,6 +3,7 @@
     <!-- ACCORDION 1 -->
     <div
       class="accordionHead"
+      id="delivery-packing"
       :class="{ active: active1 }"
       @click="
         (active1 = !active1),
@@ -37,6 +38,7 @@
     <div
       class="accordionHead"
       :class="{ active: active2 }"
+      id="terms-of-production"
       @click="
         (active2 = !active2),
           (active1 = false),
@@ -70,6 +72,7 @@
     <div
       class="accordionHead"
       :class="{ active: active3 }"
+      id="package"
       @click="
         (active3 = !active3),
           (active2 = false),
@@ -302,18 +305,75 @@
 <script>
 export default {
   data: () => ({
-    active1: false,
-    active2: false,
-    active3: false,
-    active4: false,
-    active5: false,
-    active6: false,
-    active7: false,
-    active8: false,
-    active9: false,
+    // active1: false,
+    // active2: false,
+    // active3: false,
+    // active4: false,
+    // active5: false,
+    // active6: false,
+    // active7: false,
+    // active8: false,
+    // active9: false,
   }),
 
-  mounted() {},
+  props: {
+    active1: {
+      type: Boolean,
+      default: false,
+    },
+
+    active2: {
+      type: Boolean,
+      default: false,
+    },
+
+    active3: {
+      type: Boolean,
+      default: false,
+    },
+
+    active4: {
+      type: Boolean,
+      default: false,
+    },
+
+    active5: {
+      type: Boolean,
+      default: false,
+    },
+
+    active6: {
+      type: Boolean,
+      default: false,
+    },
+
+    active7: {
+      type: Boolean,
+      default: false,
+    },
+
+    active8: {
+      type: Boolean,
+      default: false,
+    },
+
+    active9: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  mounted() {
+    if (this.$route.fullPath === "/delivery-packing/#terms-of-production") {
+      this.active5 = true;
+    } else if (this.$route.fullPath === "/delivery-packing/#package") {
+      this.active6 = true;
+    } else if (this.$route.fullPath === "/delivery-packing/#prices-payments") {
+      this.active3 = true;
+    } else if (this.$route.fullPath === "/delivery-packing/#delivery-packing") {
+      this.active4 = true;
+    }
+  },
 };
 </script>
 

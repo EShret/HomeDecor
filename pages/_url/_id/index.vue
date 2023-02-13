@@ -2,7 +2,7 @@
   <div class="catalogPG">
     <div class="container">
       <!-- bread crumbs -->
-      <Crumbs :catalogs="catalogs" />
+      <Crumbs :catalogs="catalogs" action="catalogs" />
 
       <!-- subCatalog -->
       <div class="subCatalog" v-if="catalogs.subCatalogsName.length != 0">
@@ -32,7 +32,8 @@
             >
               <div class="set__img">
                 <img
-                  :src="`/uploads/sets/${set.coverImageName[0]}`"
+                  oncontextmenu="return false;"
+                  :src="`/uploads/sets/resize/${set.coverImageName[0]}`"
                   class="img"
                 />
               </div>

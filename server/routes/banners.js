@@ -4,10 +4,11 @@ const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const jimp = require("jimp");
 const Banners = require("../model/banners");
 
 const uploadPath = path.join("static", Banners.coverImageBasePath);
-const imageMimeTypes = ["image/jpeg", "image/jpg"];
+const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, uploadPath);
@@ -38,13 +39,55 @@ router.get("/", async (req, res) => {
 
 router.post("/", upload.single("file"), async (req, res, next) => {
     const fileName = req.file != null ? req.file : null;
+
+    const imgResize = jimp.read(fileName.path).then(img => {
+        return img
+            .quality(80)
+            .write("static/uploads/banners/resize/" + fileName.filename)
+    }).catch(err => {
+        console.log(err);
+    })
+
     const banners = new Banners({
         titleBanner: req.body.titleBanner,
+        linkBanner: req.body.linkBanner,
+        newTabLink: req.body.newTabLink,
         coverImageName: fileName,
     });
+
+    if (req.headers.authorization === undefined) {
+        res.status(403).json({ message: "Токен не распознан" });
+    } else {
+        const token = req.headers.authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
+            if (err) {
+                res.status(403).json({ message: "Токен неправильный" });
+            } else {
+                try {
+                    imgResize;
+                    const newBanners = banners.save();
+                    await res.status(201).json(newBanners);
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+            }
+        });
+    }
+});
+
+
+router.post("/convertFile", async (req, res, next) => {
+    const imgResize = jimp.read(req.body.imgPath).then(img => {
+        return img
+            .quality(80)
+            .write("static/uploads/banners/resize/" + req.body.imgName)
+    }).catch(err => {
+        console.log(err);
+    })
+
     try {
-        const newBanners = banners.save();
-        await res.status(201).json(newBanners);
+        imgResize,
+            await res.status(201).json('ok');
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -66,11 +109,15 @@ router.patch("/:id", getBannersID, async (req, res) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 res.banners.titleBanner = req.body.titleBanner;
+                res.banners.linkBanner = req.body.linkBanner;
+                res.banners.newTabLink = req.body.newTabLink;
                 res.banners.coverImageName = req.body.coverImageName;
                 try {
                     await res.banners.save();
                     res.status(200).json({
                         titleBanner: res.banners.titleBanner,
+                        linkBanner: res.banners.linkBanner,
+                        newTabLink: res.banners.newTabLink,
                         coverImageName: res.banners.coverImageName,
                     });
                 } catch (err) {
@@ -113,7 +160,17 @@ router.post("/addFile", upload.single("file"), async (req, res, next) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 const newFileName = req.file != null ? req.file : null;
+
+                const imgResize = jimp.read(newFileName.path).then(img => {
+                    return img
+                        .quality(80)
+                        .write("static/uploads/banners/resize/" + newFileName.filename)
+                }).catch(err => {
+                    console.log(err);
+                })
+
                 try {
+                    imgResize;
                     await res.json(newFileName);
                 } catch (err) {
                     res.status(500).json({ message: err.message });

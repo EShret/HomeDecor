@@ -251,12 +251,16 @@
       <span>> {{ catalogs.subCatalogsName[19].subcatalogTitle }}</span>
     </nuxt-link>
 
-    <nuxt-link to="" v-if="this.action === 'set'">
+    <nuxt-link to="" v-if="this.titleSets === 'set'">
       <span>> {{ set.titleSets }} </span>
     </nuxt-link>
 
     <nuxt-link to="" v-if="this.action === 'cart'">
       <span>> Корзина</span>
+    </nuxt-link>
+
+    <nuxt-link to="" v-if="this.action === 'photoComments'">
+      <span>> Фото отзывы</span>
     </nuxt-link>
   </div>
 </template>
@@ -271,11 +275,15 @@ export default {
 
     set: {
       type: Object,
-      // type: Array,
       default: () => {},
     },
 
     action: {
+      type: String,
+      default: "",
+    },
+
+    titleSets: {
       type: String,
       default: "",
     },

@@ -1,0 +1,28 @@
+// ==========================
+//.         TABLET
+// ==========================
+@media (max-width: $md2+px) {
+    .footer {
+        .footer__body {
+            .footer__content {
+                flex-wrap: wrap;
+                justify-content: space-around;
+
+                .footer__logo {
+                    margin: 0px 20px 60px 0px;
+                    display: flex;
+                }
+
+                .footer__box {
+                    &:nth-child(2) {
+                        margin: 0px 0px 60px 0px;
+                    }
+                    
+                    &:nth-child(3) {
+                       margin: 0px auto;
+                    }
+                }
+            }
+        }
+    }
+}

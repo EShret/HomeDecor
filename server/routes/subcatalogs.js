@@ -27,7 +27,7 @@ const upload = multer({
 router.get("/", async (req, res) => {
     try {
         const subcatalogs = await Subcatalogs.find()
-            .sort("createdDate")
+            .sort("priority")
             // .select("subcatalogTitle")
             .lean();
         res.json(subcatalogs);
@@ -41,14 +41,27 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     const fileName = req.file != null ? req.file : null;
     const subcatalogs = new Subcatalogs({
         subcatalogTitle: req.body.subcatalogTitle,
+        priority: req.body.priority,
 
         coverImageName: fileName,
     });
-    try {
-        const newSubcatalogs = subcatalogs.save();
-        await res.status(201).json(newSubcatalogs);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+
+    if (req.headers.authorization === undefined) {
+        res.status(403).json({ message: "Токен не распознан" });
+    } else {
+        const token = req.headers.authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
+            if (err) {
+                res.status(403).json({ message: "Токен неправильный" });
+            } else {
+                try {
+                    const newSubcatalogs = subcatalogs.save();
+                    await res.status(201).json(newSubcatalogs);
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+            }
+        });
     }
 });
 
@@ -68,12 +81,14 @@ router.patch("/:id", getSubcatalogsID, async (req, res) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 res.subcatalogs.subcatalogTitle = req.body.subcatalogTitle;
+                res.subcatalogs.priority = req.body.priority;
 
                 res.subcatalogs.coverImageName = req.body.coverImageName;
                 try {
                     await res.subcatalogs.save();
                     res.status(200).json({
                         subcatalogTitle: res.subcatalogs.subcatalogTitle,
+                        priority: res.subcatalogs.priority,
 
                         coverImageName: res.subcatalogs.coverImageName,
                     });

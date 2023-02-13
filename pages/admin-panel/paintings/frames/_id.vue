@@ -1,7 +1,7 @@
 <template>
   <div class="framesEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="framesEdit" />
+    <Admin-head action="framesEdit" :frames="allFrames" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -32,7 +32,7 @@
                   type="file"
                   id="file"
                   ref="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
@@ -40,6 +40,13 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span>
+                  <b>520x740 px</b>
+                </span>
+              </div>
+
               <div class="addFileName">
                 <span>{{ file.name }}</span>
               </div>
@@ -50,10 +57,9 @@
                 </button>
               </div>
 
-              <div class="coverIMG">
+              <div class="coverIMG framesEditIMG">
                 <img
-                  v-if="frames.coverImageName != null"
-                  :src="`/uploads/frames/${frames.coverImageName.filename}`"
+                  :src="`/uploads/paintings/${frames.coverImageName.filename}`"
                 />
               </div>
             </div>
@@ -131,9 +137,11 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const frames = await $axios.get(`/api/frames/${params.id}`);
+      const allFrames = await $axios.$get(`/api/frames`);
 
       return {
         frames: frames.data,
+        allFrames,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -209,9 +217,17 @@ export default {
           (response) => (this.newAddedFiles = response.data),
           this.$toast.success("Изображение перезаписана", { duration: 5000 })
         )
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
   },
 

@@ -10,6 +10,14 @@ const bannersSchema = new mongoose.Schema({
         require: true
     },
 
+    linkBanner: {
+        type: String,
+    },
+
+    newTabLink: {
+        type: Boolean,
+    },
+
     createdDate: {
         type: Date,
         default: Date.now,

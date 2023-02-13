@@ -1,5 +1,5 @@
 .setsListAdmin, .paintingsListAdmin, .catalogListAdmin, 
-.subcatalogListAdmin, .subcatalogsEditAdmin, .bannersListAdmin, .framesListAdmin, .printSizeListAdmin {
+.subcatalogListAdmin, .subcatalogsEditAdmin, .bannersListAdmin, .framesListAdmin, .printSizeListAdmin, .orders, .firstSecHPListAdmin, .reviewersListAdmin, .photoCommentsListAdmin {
     width: 100%;
     height: 100%;
 }
@@ -38,6 +38,19 @@
         color: $text;
         text-align: center;
         display: block;
+    }
+
+    span.orderStatus {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0px 10px 0px 0px;
+        }
     }
 
     span:nth-child(1) {

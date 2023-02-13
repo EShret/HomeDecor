@@ -1,13 +1,18 @@
 <template>
   <div class="catalogCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="catalogCreat" />
+    <Admin-head action="catalogCreat" :catalog="catalogs" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- 1 row -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,12 @@
                 tag="div"
               >
                 <label>Наименование Категории</label>
-                <input class="inptTxt" type="text" v-model="catalogTitle" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="Еда и напитки"
+                  v-model="catalogTitle"
+                />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -28,7 +38,23 @@
                 tag="div"
               >
                 <label>URL Категории</label>
-                <input class="inptTxt" type="text" v-model="catalogURL" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="food-and-drink"
+                  v-model="catalogURL"
+                />
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Приоритет</label>
+                <input class="inptTxt" type="number" v-model="priority" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
@@ -105,8 +131,9 @@ export default {
   async asyncData({ $axios, error }) {
     try {
       const subcatalogs = await $axios.$get(`/api/subcatalogs`);
+      const catalogs = await $axios.$get(`/api/catalogs`);
 
-      return { subcatalogs };
+      return { subcatalogs, catalogs };
     } catch (e) {
       error({ statusCode: e.response.status });
     }
@@ -117,6 +144,7 @@ export default {
 
     catalogTitle: "",
     catalogURL: "",
+    priority: 0,
     subCatalogsName: [],
   }),
 
@@ -125,6 +153,7 @@ export default {
       let formData = new FormData();
       formData.append("catalogTitle", this.catalogTitle);
       formData.append("catalogURL", this.catalogURL);
+      formData.append("priority", this.priority);
       formData.append("subCatalogsName", JSON.stringify(this.subCatalogsName));
       axios
         .post(`/api/catalogs`, formData, {
@@ -140,9 +169,17 @@ export default {
           }, 500),
             this.$toast.success("Категория создана 👍🏼", { duration: 6000 });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
   },
 

@@ -27,7 +27,7 @@ const upload = multer({
 router.get("/", async (req, res) => {
     try {
         const catalogs = await Catalogs.find()
-            .sort("createdDate")
+            .sort("priority")
             .lean();
         res.json(catalogs);
     } catch (err) {
@@ -41,15 +41,28 @@ router.post("/", upload.single("file"), async (req, res, next) => {
     const catalogs = new Catalogs({
         catalogTitle: req.body.catalogTitle,
         catalogURL: req.body.catalogURL,
+        priority: req.body.priority,
         subCatalogsName: JSON.parse(req.body.subCatalogsName),
 
         coverImageName: fileName,
     });
-    try {
-        const newCatalogs = catalogs.save();
-        await res.status(201).json(newCatalogs);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+
+    if (req.headers.authorization === undefined) {
+        res.status(403).json({ message: "Токен не распознан" });
+    } else {
+        const token = req.headers.authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
+            if (err) {
+                res.status(403).json({ message: "Токен неправильный" });
+            } else {
+                try {
+                    const newCatalogs = catalogs.save();
+                    await res.status(201).json(newCatalogs);
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+            }
+        });
     }
 });
 
@@ -76,6 +89,7 @@ router.patch("/:id", getCatalogsID, async (req, res) => {
             } else {
                 res.catalogs.catalogTitle = req.body.catalogTitle;
                 res.catalogs.catalogURL = req.body.catalogURL;
+                res.catalogs.priority = req.body.priority;
                 res.catalogs.subCatalogsName = JSON.parse(req.body.subCatalogsName);
 
                 res.catalogs.coverImageName = req.body.coverImageName;
@@ -84,6 +98,7 @@ router.patch("/:id", getCatalogsID, async (req, res) => {
                     res.status(200).json({
                         catalogTitle: res.catalogs.catalogTitle,
                         catalogURL: res.catalogs.catalogURL,
+                        priority: res.catalogs.priority,
                         subCatalogsName: res.catalogs.subCatalogsName,
 
                         coverImageName: res.catalogs.coverImageName,

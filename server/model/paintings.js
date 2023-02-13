@@ -10,11 +10,12 @@ const paintingsSchema = new mongoose.Schema({
         require: true
     },
 
-    printSizePost: {
-        type: Array
+    orientation: {
+        type: String,
+        require: true
     },
 
-    sizeFrame: {
+    printSizePost: {
         type: Array
     },
 

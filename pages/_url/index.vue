@@ -26,7 +26,28 @@
       </div>
 
       <!-- SETS -->
-      <div class="sets">
+      <div class="sets" v-if="catalogs.catalogTitle === 'Новинки'">
+        <div class="sets__body">
+          <div class="sets__list">
+            <nuxt-link
+              class="set__link"
+              :to="`/${catalogs.catalogURL}/sets/${set._id}`"
+              v-for="set in sets"
+              :key="set._id"
+            >
+              <div class="set__img">
+                <img
+                  oncontextmenu="return false;"
+                  :src="`/uploads/sets/resize/${set.coverImageName[0]}`"
+                  class="img"
+                />
+              </div>
+            </nuxt-link>
+          </div>
+        </div>
+      </div>
+
+      <div class="sets" v-else>
         <div class="sets__body">
           <div class="sets__list">
             <nuxt-link
@@ -37,15 +58,13 @@
             >
               <div class="set__img">
                 <img
-                  :src="`/uploads/sets/${set.coverImageName[0]}`"
+                  oncontextmenu="return false;"
+                  :src="`/uploads/sets/resize/${set.coverImageName[0]}`"
                   class="img"
                 />
               </div>
             </nuxt-link>
           </div>
-          <!-- <nuxt-link class="more__button" to="/">
-            <span>Просмотреть еще</span>
-          </nuxt-link> -->
         </div>
       </div>
 
@@ -87,7 +106,22 @@ export default {
           set.catalogName[1] === this.catalogs.catalogTitle ||
           set.catalogName[2] === this.catalogs.catalogTitle ||
           set.catalogName[3] === this.catalogs.catalogTitle ||
-          set.catalogName[4] === this.catalogs.catalogTitle
+          set.catalogName[4] === this.catalogs.catalogTitle ||
+          set.catalogName[5] === this.catalogs.catalogTitle ||
+          set.catalogName[6] === this.catalogs.catalogTitle ||
+          set.catalogName[7] === this.catalogs.catalogTitle ||
+          set.catalogName[8] === this.catalogs.catalogTitle ||
+          set.catalogName[9] === this.catalogs.catalogTitle ||
+          set.catalogName[10] === this.catalogs.catalogTitle ||
+          set.catalogName[11] === this.catalogs.catalogTitle ||
+          set.catalogName[12] === this.catalogs.catalogTitle ||
+          set.catalogName[13] === this.catalogs.catalogTitle ||
+          set.catalogName[14] === this.catalogs.catalogTitle ||
+          set.catalogName[15] === this.catalogs.catalogTitle ||
+          set.catalogName[16] === this.catalogs.catalogTitle ||
+          set.catalogName[17] === this.catalogs.catalogTitle ||
+          set.catalogName[18] === this.catalogs.catalogTitle ||
+          set.catalogName[19] === this.catalogs.catalogTitle
         );
       });
     },

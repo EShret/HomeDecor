@@ -1,13 +1,18 @@
 <template>
   <div class="printSizeCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="printSizeCreat" />
+    <Admin-head action="printSizeCreat" :printSize="printSize" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- ROW -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,12 @@
                 tag="div"
               >
                 <label>Размер печати</label>
-                <input class="inptTxt" type="text" v-model="prSize" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="10x10"
+                  v-model="prSize"
+                />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -75,6 +85,18 @@ export default {
     ValidationObserver,
   },
 
+  async asyncData({ $axios, error }) {
+    try {
+      const printSize = await $axios.$get(`/api/printSize`);
+
+      return {
+        printSize,
+      };
+    } catch (e) {
+      error({ statusCode: e.response.status });
+    }
+  },
+
   data: () => ({
     postLoader: false,
 
@@ -103,9 +125,17 @@ export default {
               duration: 6000,
             });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
   },
 };

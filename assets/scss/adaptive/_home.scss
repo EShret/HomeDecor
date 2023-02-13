@@ -1,0 +1,91 @@
+// ==========================
+//.         TABLET
+// ==========================
+@media (max-width: $md2+px) {
+    .main {
+        padding: 70px 0px 0px 0px;
+
+        .homePG {
+            .head {
+                width: 100%;
+                height: 380px;
+            }
+
+            //. alterableCardList SECTION
+            // ==========================
+            .alterableCardList {
+                margin: 0px 0px 0px 0px;
+                .cardList {
+                    flex-wrap: wrap;
+
+                    .card__link {
+                        width: 48%;
+                        margin: 0px 0px 30px 0px;
+                    }
+                }
+            }
+
+            //. photo__comments SECTION
+            // ==========================
+            .phComments {
+                margin: 0px 0px 50px 0px;
+
+                .phComments__list {
+                    flex-wrap: wrap;
+                    margin: 0px 0px 10px 0px;
+
+                    .phComment__link {
+                        width: 48%;
+                        margin: 0px 0px 30px 0px;
+                    }
+                }
+            }
+
+            //. answersQuestions SECTION
+            // ==========================
+            .answersQuestions {
+                margin: 0px 0px 50px 0px;
+
+                .title {
+                    h1 {
+                        text-align: center;
+                        line-height: 130%;
+                    }
+                }
+
+                .answersQuestions__body {
+                    flex-wrap: wrap;
+                    margin: 0px 0px 20px 0px;
+
+                    .item {
+                        width: 48%;
+                        margin: 0px 0px 30px 0px;
+                    }
+                }
+            }
+
+            //.  new__products SECTION
+            // ==========================
+            .new__products {
+                margin: 0px 0px 50px 0px;
+            }
+        }
+    }
+}
+
+// ==========================
+//.        MOBILE
+// ==========================
+@media (max-width: $md4+px) {
+    .main {
+        .homePG {
+            .head {
+                width: 100%;
+                height: 250px;
+            }
+
+            //. alterableCardList SECTION
+            // ==========================
+        }
+    }
+}

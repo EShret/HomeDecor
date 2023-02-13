@@ -2,110 +2,118 @@
 //.    category SECTION
 // ==========================
 
-.category {
-    padding: 25px 0px;
-    position: relative;
+.shell__categoryList-hp {
+    height: 84px;
     margin: 0px 0px 15px 0px;
+
+    .category {
+        padding: 20px 0px;
+    }
+}
+
+.shell__categoryList-cp {
+    transition: all .3s ease;
+
+    .category {
+        padding: 5px 0px 15px 0px;
+    }
+}
+
+.category {
+    width: 100%;
     z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-
-
-    div {
-        transition: 0.5s;
-    }
-
-    .sticky {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .fixed {
+    transition: 0.3s;
+    
+    &.sticky {
         position: fixed;
-        top: 102px;
-        background-color: rgba(245, 231, 211, 1);
+        top: 100px;
+        width: 100%;
+        background-color: $back;
     }
-
-    .category__list {
-        width: 1440px;
-        margin: 0 auto;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
+    
+    .container {
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        .swiper-wrapper {
-            width: 100%;
+        .category__list {
+            width: calc(100% - 70px);
+            overflow: hidden;
             display: flex;
-            flex-direction: row;
             align-items: center;
-
-            .swiper-slide {
+    
+            .swiper-wrapper {
+                width: 100%;
+                position: relative;
                 display: flex;
-                justify-content: center;
+                align-items: center;
+    
+                .swiper-slide {
+                    display: flex;
+                    justify-content: center;
+    
+                    .category__item {
+                        text-align: center;
+                        padding: 0px 5px;
 
-                .category__item {
-                    padding: 0px 10px 5px 10px;
-                    text-align: center;
-
-                    span {
-                        line-height: 22px;
-                        font-weight: 300;
-                    }
-
-                    &.category__item-active {
-                        border-bottom: 1.5px solid $line;
+                        &.category__item-active {
+                            border-bottom: 1.5px solid $line;
+                        }
+    
+                        span {
+                            line-height: 22px;
+                            font-weight: 300;
+                        }
                     }
                 }
             }
         }
-    }
-
-    .slider__nav {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        width: 1440px;
-
-        .slider-button-prev {
+    
+        .slider__nav {
             position: absolute;
-            left: -3%;
-            width: 30px;
-            height: 30px;
-            border: 1px solid $blue;
-            border-radius: 50%;
+            top: 0;
             display: flex;
-            justify-content: center;
             align-items: center;
-            transition: 0.5s;
-            z-index: 100;
+            height: 100%;
+            width: 100%;
 
-            img {
-                transform: rotate(180deg);
+            .slider-button-prev {
+                position: absolute;
+                left: 0%;
+                width: 30px;
+                height: 30px;
+                border: 1px solid $blue;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: 0.5s;
+                z-index: 102;
+
+                img {
+                    transform: rotate(180deg);
+                }
             }
-        }
 
-        .slider-button-next {
-            position: absolute;
-            right: -3%;
-            width: 30px;
-            height: 30px;
-            border: 1px solid $blue;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.5s;
-            z-index: 100;
-        }
+            .slider-button-next {
+                position: absolute;
+                right: 0%;
+                width: 30px;
+                height: 30px;
+                border: 1px solid $blue;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: 0.5s;
+                z-index: 102;
+            }
 
-        .swiper-button-disabled {
-            opacity: 0;
-            visibility: 0;
+            .swiper-button-disabled {
+                opacity: 0;
+                visibility: 0;
+            }
         }
     }
 }

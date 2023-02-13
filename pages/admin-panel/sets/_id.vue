@@ -1,7 +1,7 @@
 <template>
   <div class="setsEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="setsEdit" />
+    <Admin-head action="setsEdit" :sets="allSets" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -27,13 +27,19 @@
                   type="file"
                   id="file"
                   ref="files"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   multiple
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
                   Добавить фото
                 </button>
+              </div>
+
+              <div class="imgSize">
+                <span>
+                  <b>1200x1200 px</b>
+                </span>
               </div>
 
               <div class="addFileName">
@@ -93,6 +99,9 @@
                 tag="div"
               >
                 <label> Выбор Категории </label>
+                <span style="color: red" v-if="catalogName.length >= 5">
+                  Нельзя выбрать больше 20 категорий на один сет
+                </span>
                 <!-- CATALOG  -->
                 <!-- <multiselect
                   class="multiselect"
@@ -215,12 +224,14 @@ export default {
       const paintings = await $axios.$get(`/api/paintings`);
       const subcatalogs = await $axios.$get(`/api/subcatalogs`);
       const catalogs = await $axios.$get(`/api/catalogs`);
+      const allSets = await $axios.$get(`/api/sets`);
 
       return {
         sets: sets.data,
         paintings,
         catalogs,
         subcatalogs,
+        allSets,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -264,9 +275,17 @@ export default {
           (response) => (this.newAddedFiles = response.data),
           this.$toast.success("Изображение перезаписана", { duration: 5000 })
         )
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
 
     setsUpdate(newAddedFiles) {

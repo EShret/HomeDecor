@@ -1,7 +1,7 @@
 <template>
   <div class="subcatalogsEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="subcatalogsEdit" />
+    <Admin-head action="subcatalogsEdit" :subcatalog="allSubcatalogs" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -18,6 +18,17 @@
               >
                 <label>Наименование Подкатегории</label>
                 <input class="inptTxt" type="text" v-model="subcatalogTitle" />
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Приоритет</label>
+                <input class="inptTxt" type="number" v-model="priority" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
@@ -65,12 +76,15 @@ export default {
     postLoader: false,
 
     subcatalogTitle: "",
+    priority: 0,
   }),
 
   async asyncData({ $axios, params, error }) {
     try {
       const subcatalogs = await $axios.$get(`/api/subcatalogs/${params.id}`);
-      return { subcatalogs };
+      const allSubcatalogs = await $axios.$get(`/api/subcatalogs`);
+
+      return { subcatalogs, allSubcatalogs };
     } catch (e) {
       error({ statusCode: e.response.status });
     }
@@ -80,6 +94,7 @@ export default {
     subcatalogUpdate() {
       let formData = {
         subcatalogTitle: this.subcatalogTitle,
+        priority: this.priority,
       };
       axios
         .patch(`/api/subcatalogs/${this.subcatalogs._id}`, formData, {
@@ -98,13 +113,22 @@ export default {
             });
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message, { duration: 5000 });
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
         });
     },
   },
 
   mounted() {
     this.subcatalogTitle = this.subcatalogs.subcatalogTitle;
+    this.priority = this.subcatalogs.priority;
   },
 };
 </script>

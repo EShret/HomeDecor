@@ -1,7 +1,7 @@
 <template>
   <div class="setsListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="sets" />
+    <Admin-head action="sets" :sets="sets" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -9,6 +9,10 @@
         <div class="content__body-head">
           <span class="w5">№</span>
           <span class="w35">Наименование</span>
+          <span class="w15"></span>
+          <span class="w15"></span>
+          <span class="w15"></span>
+          <span class="w15"> </span>
         </div>
 
         <div class="content__item" v-for="(set, index) in sets" :key="set._id">

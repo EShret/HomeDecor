@@ -1,7 +1,7 @@
 <template>
   <div class="printSizeListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="printSize" />
+    <Admin-head action="printSize" :printSize="printSize" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">

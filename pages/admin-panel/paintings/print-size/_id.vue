@@ -1,7 +1,7 @@
 <template>
   <div class="printSizeEditAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="printSizeEdit" />
+    <Admin-head action="printSizeEdit" :printSize="allPrintSize" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
@@ -76,9 +76,13 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const printSize = await $axios.get(`/api/printSize/${params.id}`);
+      const allPrintSize = await $axios.$get(`/api/printSize`);
+      const paintings = await $axios.$get(`/api/paintings`);
 
       return {
         printSize: printSize.data,
+        paintings,
+        allPrintSize,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -115,10 +119,20 @@ export default {
             });
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message, { duration: 5000 });
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
         });
     },
   },
+
+  computed: {},
 
   mounted() {
     this.prSize = this.printSize.prSize;

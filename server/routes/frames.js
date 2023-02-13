@@ -4,10 +4,11 @@ const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const jimp = require("jimp");
 const Frames = require("../model/frames");
 
 const uploadPath = path.join("static", Frames.coverImageBasePath);
-const imageMimeTypes = ["image/jpeg", "image/jpg"];
+const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, uploadPath);
@@ -38,6 +39,16 @@ router.get("/", async (req, res) => {
 
 router.post("/", upload.single("file"), async (req, res, next) => {
     const fileName = req.file != null ? req.file : null;
+
+    const imgResize = jimp.read(fileName.path).then(img => {
+        return img
+            .quality(80)
+            .resize(600, jimp.AUTO)
+            .write("static/uploads/paintings/resize/" + fileName.filename)
+    }).catch(err => {
+        console.log(err);
+    })
+
     const frames = new Frames({
         frameName: req.body.frameName,
         frameSize: req.body.frameSize,
@@ -45,13 +56,46 @@ router.post("/", upload.single("file"), async (req, res, next) => {
 
         coverImageName: fileName,
     });
+
+    if (req.headers.authorization === undefined) {
+        res.status(403).json({ message: "Токен не распознан" });
+    } else {
+        const token = req.headers.authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
+            if (err) {
+                res.status(403).json({ message: "Токен неправильный" });
+            } else {
+                try {
+                    imgResize;
+                    const newFrames = frames.save();
+                    await res.status(201).json(newFrames);
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+            }
+        });
+    }
+});
+
+
+router.post("/convertFile", async (req, res, next) => {
+    const imgResize = jimp.read(req.body.imgPath).then(img => {
+        return img
+            .quality(80)
+            .resize(600, jimp.AUTO)
+            .write("static/uploads/paintings/resize/" + req.body.imgName)
+    }).catch(err => {
+        console.log(err);
+    })
+
     try {
-        const newFrames = frames.save();
-        await res.status(201).json(newFrames);
+        imgResize,
+            await res.status(201).json('ok');
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
+
 
 
 router.get("/:id", getFramesID, (req, res) => {
@@ -122,7 +166,18 @@ router.post("/addFile", upload.single("file"), async (req, res, next) => {
                 res.status(403).json({ message: "Токен неправильный" });
             } else {
                 const newFileName = req.file != null ? req.file : null;
+
+                const imgResize = jimp.read(newFileName.path).then(img => {
+                    return img
+                        .quality(80)
+                        .resize(600, jimp.AUTO)
+                        .write("static/uploads/paintings/resize/" + newFileName.filename)
+                }).catch(err => {
+                    console.log(err);
+                })
+
                 try {
+                    imgResize;
                     await res.json(newFileName);
                 } catch (err) {
                     res.status(500).json({ message: err.message });

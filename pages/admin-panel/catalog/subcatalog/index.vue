@@ -1,7 +1,7 @@
 <template>
   <div class="subcatalogListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="subcatalog" />
+    <Admin-head action="subcatalog" :subcatalog="subcatalogs" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">

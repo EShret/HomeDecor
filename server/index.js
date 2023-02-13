@@ -28,7 +28,7 @@ db.once("open", () => console.log("============//connected to dataBase//========
 //====================================
 
 const authRoutes = require("./routes/auth");
-const emailRoutes = require("./routes/email");
+const ordersRoutes = require("./routes/orders");
 const paintingsRoutes = require("./routes/paintings");
 const framesRoutes = require("./routes/frames");
 const printSizeRoutes = require("./routes/printSize");
@@ -36,10 +36,17 @@ const catalogsRoutes = require("./routes/catalogs");
 const subcatalogsRoutes = require("./routes/subcatalogs");
 const bannersRoutes = require("./routes/banners");
 const setsRoutes = require("./routes/sets");
+const firstSec_hpRoutes = require("./routes/firstSec_hp");
+const reviewersRoutes = require("./routes/reviewers");
+const photoCommentsRoutes = require("./routes/photo-comments");
+const verifyRoutes = require("./routes/verify");
+
+const emailToManagerRoutes = require("./routes/email/emailToManager");
+const emailToClientRoutes = require("./routes/email/emailToClient");
 
 
 app.use("/api/auth", authRoutes);
-app.use("/api/email", emailRoutes);
+app.use("/api/orders", ordersRoutes);
 app.use("/api/paintings", paintingsRoutes);
 app.use("/api/frames", framesRoutes);
 app.use("/api/printSize", printSizeRoutes);
@@ -47,6 +54,14 @@ app.use("/api/catalogs", catalogsRoutes);
 app.use("/api/subcatalogs", subcatalogsRoutes);
 app.use("/api/banners", bannersRoutes);
 app.use("/api/sets", setsRoutes);
+app.use("/api/firstSec_hp", firstSec_hpRoutes);
+app.use("/api/reviewers", reviewersRoutes);
+app.use("/api/photoComments", photoCommentsRoutes);
+app.use("/api/verify", verifyRoutes);
+
+app.use("/api/emailToManager", emailToManagerRoutes);
+app.use("/api/emailToClient", emailToClientRoutes);
+
 
 
 //            nuxt.render

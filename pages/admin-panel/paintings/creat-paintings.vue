@@ -1,13 +1,18 @@
 <template>
   <div class="paintingsCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="paintingsCreat" />
+    <Admin-head action="paintingsCreat" :paintings="paintings" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- 1 row -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,26 @@
                 tag="div"
               >
                 <label>Наименование Картины</label>
-                <input class="inptTxt" type="text" v-model="title" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="Новый постер"
+                  v-model="title"
+                />
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Выбор ориентации постера</label>
+                <select class="inptTxt" v-model="orientation">
+                  <option value="horizontal">Горизонтальная</option>
+                  <option value="vertical">Вертикальная</option>
+                </select>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
 
@@ -32,7 +56,7 @@
                   type="file"
                   id="file"
                   ref="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/jpg, image/png"
                   @change="handleFileUpload()"
                 />
                 <button class="add__files-button" @click="customAddFiles()">
@@ -40,6 +64,14 @@
                 </button>
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
+
+              <div class="imgSize">
+                <span>
+                  vertival: <b>520x740 px</b> <br />
+                  horizontal: <b>740x520 px</b>
+                </span>
+              </div>
+
               <div class="addFileName">
                 <span>{{ file.name }}</span>
               </div>
@@ -53,39 +85,15 @@
                 class="form__item w40"
                 tag="div"
               >
-                <label>Размеры печати</label>
+                <label>Размеры печати и рамы</label>
                 <!-- Size POST -->
                 <multiselect
                   class="multiselect"
                   v-model="printSizePost"
-                  tag-placeholder="Размеры печати"
-                  placeholder="Размеры печати"
+                  tag-placeholder="Размеры печати и рамы"
+                  placeholder="Размеры печати и рамы"
                   :options="printSize"
                   label="prSize"
-                  :multiple="true"
-                  track-by="_id"
-                ></multiselect>
-                <span class="error-message">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-
-            <!-- ROW -->
-            <div class="form__row">
-              <ValidationProvider
-                rules="required"
-                v-slot="{ errors }"
-                class="form__item w40"
-                tag="div"
-              >
-                <label>Размеры Рам</label>
-                <!-- Size Frames -->
-                <multiselect
-                  class="multiselect"
-                  v-model="sizeFrame"
-                  tag-placeholder="Размеры Рам"
-                  placeholder="Размеры Рам"
-                  :options="frames"
-                  label="frameSize"
                   :multiple="true"
                   track-by="_id"
                 ></multiselect>
@@ -138,12 +146,14 @@ export default {
 
   async asyncData({ $axios, error }) {
     try {
+      const paintings = await $axios.$get(`/api/paintings`);
       const printSize = await $axios.$get(`/api/printSize`);
       const frames = await $axios.$get(`/api/frames`);
 
       return {
         printSize,
         frames,
+        paintings,
       };
     } catch (e) {
       error({ statusCode: e.response.status });
@@ -155,8 +165,8 @@ export default {
     disableButton: true,
 
     title: "",
+    orientation: "horizontal",
     printSizePost: [],
-    sizeFrame: [],
 
     file: "",
   }),
@@ -169,8 +179,8 @@ export default {
     newPaintings() {
       let formData = new FormData();
       formData.append("title", this.title);
+      formData.append("orientation", this.orientation);
       formData.append("printSizePost", JSON.stringify(this.printSizePost));
-      formData.append("sizeFrame", JSON.stringify(this.sizeFrame));
 
       formData.append("file", this.file);
       axios
@@ -187,9 +197,17 @@ export default {
           }, 500),
             this.$toast.success("Картина создана 👍🏼", { duration: 6000 });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
 
     handleFileUpload() {

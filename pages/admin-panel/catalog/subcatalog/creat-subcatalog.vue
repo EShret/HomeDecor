@@ -1,13 +1,18 @@
 <template>
   <div class="subcatalogCreatAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="subcatalogCreat" />
+    <Admin-head action="subcatalogCreat" :subcatalog="subcatalogs" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">
       <div class="content__body">
         <div class="form">
           <ValidationObserver class="form__body" v-slot="{ invalid }" tag="div">
+            <!-- row -->
+            <div class="form__row">
+              <span class="warning">Заполняйте строго по примерам</span>
+            </div>
+
             <!-- 1 row -->
             <div class="form__row">
               <ValidationProvider
@@ -17,7 +22,23 @@
                 tag="div"
               >
                 <label>Наименование Подкатегории</label>
-                <input class="inptTxt" type="text" v-model="subcatalogTitle" />
+                <input
+                  class="inptTxt"
+                  type="text"
+                  placeholder="Кабинет"
+                  v-model="subcatalogTitle"
+                />
+                <span class="error-message">{{ errors[0] }}</span>
+              </ValidationProvider>
+
+              <ValidationProvider
+                rules="required"
+                v-slot="{ errors }"
+                class="form__item w20"
+                tag="div"
+              >
+                <label>Приоритет</label>
+                <input class="inptTxt" type="number" v-model="priority" />
                 <span class="error-message">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
@@ -61,16 +82,28 @@ export default {
     ValidationObserver,
   },
 
+  async asyncData({ $axios, error }) {
+    try {
+      const subcatalogs = await $axios.$get(`/api/subcatalogs`);
+
+      return { subcatalogs };
+    } catch (e) {
+      error({ statusCode: e.response.status });
+    }
+  },
+
   data: () => ({
     postLoader: false,
 
     subcatalogTitle: "",
+    priority: 0,
   }),
 
   methods: {
     newSubCatalog() {
       let formData = new FormData();
       formData.append("subcatalogTitle", this.subcatalogTitle);
+      formData.append("priority", this.priority);
       axios
         .post(`/api/subcatalogs`, formData, {
           headers: {
@@ -85,9 +118,17 @@ export default {
           }, 500),
             this.$toast.success("Подкатегория создана 👍🏼", { duration: 6000 });
         })
-        .catch((err) =>
-          this.$toast.error(err.response.data.message, { duration: 5000 })
-        );
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+            this.$auth.logout();
+            setTimeout(() => {
+              this.$router.push("/login");
+            }, 10);
+          } else {
+            this.$toast.error(err.response.data.message, { duration: 5000 });
+          }
+        });
     },
   },
 };

@@ -27,7 +27,7 @@ const upload = multer({
 router.get("/", async (req, res) => {
     try {
         const printSize = await PrintSize.find()
-            .sort("-createdDate")
+            .sort("createdDate")
             .lean();
         res.json(printSize);
     } catch (err) {
@@ -44,11 +44,23 @@ router.post("/", upload.single("file"), async (req, res, next) => {
 
         coverImageName: fileName,
     });
-    try {
-        const newPrintSize = printSize.save();
-        await res.status(201).json(newPrintSize);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+
+    if (req.headers.authorization === undefined) {
+        res.status(403).json({ message: "Токен не распознан" });
+    } else {
+        const token = req.headers.authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.TOKEN, async function (err, decoded) {
+            if (err) {
+                res.status(403).json({ message: "Токен неправильный" });
+            } else {
+                try {
+                    const newPrintSize = printSize.save();
+                    await res.status(201).json(newPrintSize);
+                } catch (err) {
+                    res.status(400).json({ message: err.message });
+                }
+            }
+        });
     }
 });
 

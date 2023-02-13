@@ -1,7 +1,7 @@
 <template>
   <div class="bannersListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="banners" />
+    <Admin-head action="banners" :banners="banners" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">

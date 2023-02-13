@@ -1,7 +1,7 @@
 <template>
   <div class="framesListAdmin">
     <!-- ============  Admin-head component ============ -->
-    <Admin-head action="frames" />
+    <Admin-head action="frames" :frames="frames" />
 
     <!-- ============  admin content ============ -->
     <div class="admin__content">

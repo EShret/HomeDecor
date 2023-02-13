@@ -2,7 +2,7 @@
   <section class="auth">
     <div class="auth__body">
       <div class="auth__img">
-        <img src="/img/admin/likes.png" />
+        <img oncontextmenu="return false;" src="/img/admin/likes.png" />
       </div>
 
       <div class="auth__form">
@@ -12,7 +12,7 @@
 
             <div>
               <label>Login</label>
-              <input type="text" id="name" v-model="login.user" />
+              <input type="text" id="name" v-model="login.user" autofocus />
             </div>
             <div>
               <label>Password</label>

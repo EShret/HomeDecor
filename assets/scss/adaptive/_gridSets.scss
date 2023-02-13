@@ -1,0 +1,20 @@
+// ==========================
+//.         TABLET
+// ==========================
+@media (max-width: $md2+px) {
+
+    //. SETS SECTION
+    // ==========================
+    .sets {
+        margin: 0px 0px 20px 0px;
+
+        .sets__body {
+            .sets__list {
+                .set__link {
+                    width: 48%;
+                    margin: 0px 0px 30px 0px;
+                }
+            }
+        }
+    }
+}

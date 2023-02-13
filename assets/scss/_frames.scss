@@ -1,0 +1,217 @@
+.framesPG {
+    padding: 200px 0px 60px 0px;
+
+    .framesPG__body {
+        margin: 0px 0px 50px 0px;
+
+        .title {
+            margin: 0px 0px 35px 0px;
+        }
+
+        .frames {
+            .frames__body {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+
+                .frame__link {
+                    width: 25%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 0px 0px 25px 0px;
+
+                    a {
+                        width: 61%;
+                    }
+
+                    .frame__img {
+                        transition: 0.5s;
+
+                        &:hover {
+                            transform: scale(1.01);
+                            box-shadow: 5px 5px 15px 2px rgba(27, 27, 27, 0.3);
+                        }
+
+                        img {
+                            transition: 0.5s;
+                        }
+                    }
+
+                    .frame__info {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin: 20px 0px 0px 0px;
+
+                        span {
+                            &:first-child {
+                                font-weight: 300;
+                                margin: 0px 0px 15px 0px;
+                            }
+
+                            &:last-child {
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.singleFramePG {
+    padding: 200px 0px 60px 0px;
+
+    .singleFramePG__body {
+        display: flex;
+        flex-direction: row;
+
+        .body__item {
+            flex: 0 0 50%;
+
+            &:first-child {
+                display: flex;
+                justify-content: center;
+            }
+
+            .frame__img {
+                width: 500px;
+                height: 695px;
+            }
+            
+            .frame__info {
+                .title {
+                    padding: 20px 0px 0px 0px;
+                    margin: 0px 0px 40px 0px;
+                }
+
+                .detail {
+                    width: 45%;
+                    margin: 0px 0px 60px 0px;
+
+                    .cost {
+                        width: 100%;
+                        border: 2px solid $stroke;
+                        padding: 10px 10px;
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 0px 0px 20px 0px;
+
+                        span {
+                            &:first-child {
+                                font-weight: 300;
+                            }
+
+                            &:last-child {
+                                font-weight: 700;
+                            }
+                        }
+                    }
+
+                    .number {
+                        width: 100%;
+                        border: 2px solid $stroke;
+                        padding: 10px 10px;
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 0px 0px 20px 0px;
+
+                        .labelQuin {
+                            font-weight: 300;
+                        }
+
+                        .quantity {
+                            display: flex;
+
+                            .quantity__rem {
+                                width: 20px;
+                                height: 20px;
+                                border: 2px solid $stroke;
+                                border-radius: 50%;
+                                position: relative;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin: 0px 15px 0px 5px;
+                                cursor: pointer;
+
+                                &::after {
+                                    content: '';
+                                    position: absolute;
+                                    width: 60%;
+                                    height: 1.5px;
+                                    background-color: #000;
+                                    border-radius: 20px;
+                                }
+                            }
+
+                            .quantity_numb {
+                                padding: 2px 0px 0px 0px;
+                            }
+
+                            .quantity__add {
+                                width: 20px;
+                                height: 20px;
+                                border: 2px solid $stroke;
+                                border-radius: 50%;
+                                position: relative;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin: 0px 0px 0px 15px;
+                                cursor: pointer;
+
+                                &::after {
+                                    content: '';
+                                    position: absolute;
+                                    width: 60%;
+                                    height: 1.5px;
+                                    background-color: #000;
+                                    border-radius: 20px;
+                                }
+
+                                &::before {
+                                    content: '';
+                                    position: absolute;
+                                    height: 60%;
+                                    width: 1.5px;
+                                    background-color: #000;
+                                    border-radius: 20px;
+                                }
+                            }
+                        }
+                    }
+
+                    .addToCart {
+                        width: 100%;
+                        height: 40px;
+                        background-color: $blue;
+                        color: #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        margin: 0px 0px 40px 0px;
+                        position: relative;
+                    }
+
+                    .fromToCart {
+                        width: 80%;
+                        height: 45px;
+                        background-color: $blue;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        a {
+                            color: #fff;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
