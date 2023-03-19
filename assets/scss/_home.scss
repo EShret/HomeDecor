@@ -1,6 +1,5 @@
 .main {
     .homePG {
-
         // ==========================
         //.      HEAD SECTION
         // ==========================
@@ -11,8 +10,8 @@
             // height: 650px;
 
             .head-img {
-               width: 100%;
-               height: 100%;
+                width: 100%;
+                height: 100%;
             }
             .head__body {
                 display: flex;
@@ -47,16 +46,16 @@
                     img:nth-child(2) {
                         transform: translateY(58%);
                     }
-                    
+
                     img:nth-child(3) {
                         transform: translate(65%, 30%);
                     }
                 }
             }
         }
-                // ==========================
-                //. alterableCardList SECTION
-                // ==========================
+        // ==========================
+        //. alterableCardList SECTION
+        // ==========================
         .alterableCardList {
             margin: 0px 0px 75px 0px;
 
@@ -104,21 +103,33 @@
                             font-size: 18px;
                             font-weight: 700;
                             line-height: 130%;
+
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            line-clamp: 1;
+                            -webkit-box-orient: vertical;
                         }
                     }
 
                     .card__desc {
-                        height: 110px;
-                        overflow: hidden;
-                        display: flex;
+                        p {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 4;
+                            line-clamp: 4;
+                            -webkit-box-orient: vertical;
+                        }
                     }
                 }
             }
         }
 
-                // ==========================
-                //. photo__comments SECTION
-                // ==========================
+        // ==========================
+        //. photo__comments SECTION
+        // ==========================
 
         .phComments {
             margin: 0px 0px 75px 0px;
@@ -153,7 +164,7 @@
                         margin: 0px 0px 15px 0px;
 
                         img {
-                            transition: .5s;
+                            transition: 0.5s;
                         }
                     }
 
@@ -178,7 +189,7 @@
                             span {
                                 &:first-child {
                                     font-size: 13px;
-                                    opacity: .8;
+                                    opacity: 0.8;
                                     margin: 0px 0px 2px 0px;
                                 }
 
@@ -220,50 +231,138 @@
             }
         }
 
-                // ==========================
-                //.  answersQuestions SECTION
-                // ==========================
-
-        .answersQuestions {
+        // ==========================
+        //. questionsAnswers SECTION
+        // ==========================
+        section.questionsAnswers {
+            padding: 40px;
             margin: 0px 0px 75px 0px;
+            background-color: #f4f4f4;
 
             .title {
                 display: flex;
                 justify-content: center;
-                margin: 0px 0px 50px 0px;
+                align-items: center;
+                margin: 0px 0px 30px 0px;
             }
 
-            .answersQuestions__body {
+            .questionsAnswers__body {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
-                margin: 0px 0px 50px 0px;
+                align-items: center;
+                margin: 0px 0px 30px 0px;
 
-                .item {
-                    width: 23%;
+                // buttons
+                .buttons {
+                    flex: 0 0 50%;
+                    padding: 35px 30px 35px 0px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    border-right: 1px solid $blue;
 
-                    .item__title {
-                        display: block;
-                        font-weight: 700;
-                        font-size: 17px;
-                        text-transform: uppercase;
-                        line-height: 130%;
-                        margin: 0px 0px 10px 0px;
+                    .item {
+                        width: 50%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        cursor: pointer;
 
-                        b {
+                        &:nth-child(1) {
+                            margin: 0px 0px 25px 0px;
+                        }
+
+                        &:nth-child(2) {
+                            margin: 0px 0px 25px 0px;
+                        }
+
+                        .item__ico {
+                            margin: 0px 25px 0px 0px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: relative;
+
+                            img {
+                                width: 35px;
+                                height: 35px;
+                                transition: 0.3s;
+
+                                &:nth-child(1) {
+                                    opacity: 1;
+                                }
+
+                                &:nth-child(2) {
+                                    position: absolute;
+                                    opacity: 0;
+                                }
+                            }
+                        }
+
+                        span {
+                            font-size: calc(14px + (17 - 14) * ((100vw - 992px) / (1920 - 992)));
                             font-weight: 700;
-                            font-size: 15px;
-                            opacity: .5;
+                            line-height: 140%;
+                            text-transform: uppercase;
+                            transition: 0.3s;
+                        }
+
+                        &:hover {
+                            .item__ico {
+                                img {
+                                    &:nth-child(1) {
+                                        opacity: 0;
+                                    }
+
+                                    &:nth-child(2) {
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+
+                            span {
+                                color: $line;
+                            }
+                        }
+
+                        &.active {
+                            .item__ico {
+                                img {
+                                    &:nth-child(1) {
+                                        opacity: 0;
+                                    }
+
+                                    &:nth-child(2) {
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+
+                            span {
+                                color: $line;
+                            }
                         }
                     }
+                }
 
-                    .item__desc {
-                        font-size: 17px;
-                        line-height: 130%;
+                // desc
+                .desc {
+                    flex: 0 0 50%;
+                    padding: 0px 0px 0px 50px;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .item {
+                        position: absolute;
+
+                        p {
+                            font-weight: 400;
+                        }
                     }
                 }
             }
-            
+
             .moreButton {
                 display: flex;
                 justify-content: center;
@@ -293,9 +392,9 @@
             }
         }
 
-                // ==========================
-                //.  new__products SECTION
-                // ==========================
+        // ==========================
+        //.  new__products SECTION
+        // ==========================
 
         .new__products {
             margin: 0px 0px 75px 0px;
@@ -305,6 +404,10 @@
                     display: flex;
                     justify-content: center;
                     margin: 0px 0px 40px 0px;
+                }
+
+                .sets {
+                    margin: 0px 0px 30px 0px;
                 }
 
                 .new__products-list {
@@ -329,13 +432,13 @@
                     justify-content: center;
 
                     a {
-                       padding: 5px 10px; 
-                       transition: 0.5s;
-                       position: relative;
+                        padding: 5px 10px;
+                        transition: 0.5s;
+                        position: relative;
 
-                       span {
-                           font-weight: 300;
-                       }
+                        span {
+                            font-weight: 300;
+                        }
                     }
 
                     a::before {
@@ -379,7 +482,7 @@
                 margin: 0px 0px 30px 0px;
 
                 .instagram__head {
-                    text-align: center; 
+                    text-align: center;
                     margin: 0px 0px 35px 0px;
 
                     span {

@@ -98,8 +98,8 @@
         </div>
       </section>
 
-      <!-- answersQuestions SECTION -->
-      <section class="answersQuestions">
+      <!-- questions answers SECTION -->
+      <section class="questionsAnswers">
         <div class="title">
           <h1>
             Покупайте готовые изделия в нашем шоу-руме или заказывайте по вашему
@@ -107,66 +107,114 @@
           </h1>
         </div>
 
-        <div class="answersQuestions__body">
-          <nuxt-link class="item" to="/delivery-packing/#terms-of-production">
-            <span class="item__title">
-              Быстрое изготовление <br />
-              от 1 до 5 рабочих дней <b>></b>
-            </span>
+        <div class="questionsAnswers__body">
+          <!-- button -->
+          <div class="buttons">
+            <div
+              class="item"
+              :class="{ active: questionsAnswers == 1 }"
+              @click="questionsAnswers = 1"
+            >
+              <div class="item__ico">
+                <img src="/img/ico/hp-aq1.svg" alt="" />
+                <img src="/img/ico/hp-aq1-red.svg" alt="" />
+              </div>
+              <span> БЫСТРОЕ ИЗГОТОВЛЕНИЕ </span>
+            </div>
 
-            <span class="item__desc">
-              Стандартный срок изготовления продукции от 3 до 5 рабочих дней,
-              возможно изготовление в течении одного дня за дополнительную плату
-              от 30 до 50% к цене
-            </span>
-          </nuxt-link>
+            <div
+              class="item"
+              :class="{ active: questionsAnswers == 2 }"
+              @click="questionsAnswers = 2"
+            >
+              <div class="item__ico">
+                <img src="/img/ico/hp-aq2.svg" alt="" />
+                <img src="/img/ico/hp-aq2-red.svg" alt="" />
+              </div>
+              <span>
+                Высокое качество. <br />
+                Упаковка в подарок
+              </span>
+            </div>
 
-          <nuxt-link class="item" to="/delivery-packing/#package">
-            <span class="item__title">
-              ВЫСОКОЕ КАЧЕСТВО НАШЕЙ ПРОДУКЦИИ <br />
-              УПАКОВКА В ПОДАРОК <b>></b>
-            </span>
+            <div
+              class="item"
+              :class="{ active: questionsAnswers == 3 }"
+              @click="questionsAnswers = 3"
+            >
+              <div class="item__ico">
+                <img src="/img/ico/hp-aq3.svg" alt="" />
+                <img src="/img/ico/hp-aq3-red.svg" alt="" />
+              </div>
+              <span> Все виды оплаты </span>
+            </div>
 
-            <span class="item__desc">
-              Наша продукция проходит строгий контроль качества на всех этапах
-              изготовления - от печати до упаковки, поэтому вы можете быть
-              уверены в высоком качестве нашей продукции - постеров, картин,
-              обоев. Упаковка прозрачным полиэтиленом входит в цену изделия
-              Такке вы можете выбрать подарочную упаковку белой бумагой с
-              атласной лентой, цвет ленты на Ваш вкус или эко упаковку
-              коричневой крафт-бумагой с бечевкой - стильно, модно и экологично,
-              внесите свой вклад в защиту окружающей среды
-            </span>
-          </nuxt-link>
+            <div
+              class="item"
+              :class="{ active: questionsAnswers == 4 }"
+              @click="questionsAnswers = 4"
+            >
+              <div class="item__ico">
+                <img src="/img/ico/hp-aq4.svg" alt="" />
+                <img src="/img/ico/hp-aq4-red.svg" alt="" />
+              </div>
+              <span>
+                Быстрая доставка по <br />
+                Туркменистану
+              </span>
+            </div>
+          </div>
 
-          <nuxt-link class="item" to="/delivery-packing/#prices-payments">
-            <span class="item__title">
-              ЛЮБАЯ ФОРМА ОПЛАТЫ <br />
-              НАЛИЧНЫЕ, БЕЗНАЛИЧНЫЕ <b>></b>
-            </span>
+          <!-- desc -->
+          <div class="desc">
+            <transition name="answers">
+              <div class="item" v-if="questionsAnswers == 1">
+                <p>
+                  Обычный срок изготовления продукции - от 1 до 5 рабочих дней.
+                  Возможно изготовление в течении одного дня за дополнительную
+                  плату от 30 до 50% цены
+                </p>
+              </div>
+            </transition>
 
-            <span class="item__desc">
-              Оплачивайте так как Вам удобно - наличными, карточкой через
-              терминал, безналичным расчетом через банк, в ближайшее время будет
-              доступна онлайн оплата через ИНТЕРНЕТ
-            </span>
-          </nuxt-link>
+            <transition name="answers">
+              <div class="item" v-if="questionsAnswers == 2">
+                <p>
+                  Наша продукция проходит строгий контроль качества на всех
+                  этапах изготовления - от печати до упаковки, поэтому вы можете
+                  быть уверены в высоком наших изделий - постеров, картин,
+                  обоев. Упаковка прозрачным полиэтиленом входит в цену изделия.
+                  Также вы можете выбрать подарочную упаковку белой бумагой с
+                  атласной лентой. Цвет ленты на Ваш вкус! Или эко упаковку -
+                  коричневая крафт-бумага с джутом - стильно, модно и
+                  экологично, внесите свой вклад в защиту окружающей среды
+                </p>
+              </div>
+            </transition>
 
-          <nuxt-link class="item" to="/delivery-packing/#delivery-packing">
-            <span class="item__title">
-              БЫСТРАЯ ДОСТАВКА ПО АШХАБАДУ <br />
-              И ВСЕМУ ТУРКМЕНИСТАНУ <b>></b>
-            </span>
+            <transition name="answers">
+              <div class="item" v-if="questionsAnswers == 3">
+                <p>
+                  Оплачивайте так, как Вам удобно - наличными, картой через
+                  терминал, банковским переводом. В ближайшее время будет
+                  доступна онлайн оплата через
+                </p>
+              </div>
+            </transition>
 
-            <span class="item__desc">
-              Доставляем по г.Ашхабаду за один рабочий день или к указанным Вами
-              дате и времени, наша служба доставки свяжется с Вами по готовности
-              заказа. Стоимость доставки от 20 манат. Возможна доставка по
-              Туркменистану, стоимость зависит от стоимости услуг доставки
-              перевозчиков, Вы можете запросить информацию по телефонам <br />
-              +993 00 00 00 00, +993 00 00 00 00
-            </span>
-          </nuxt-link>
+            <transition name="answers">
+              <div class="item" v-if="questionsAnswers == 4">
+                <p>
+                  Доставляем по г.Ашхабаду в течении дня или выбранной Вами дате
+                  и времени. Наша служба доставки свяжется с Вами по готовности
+                  заказа. Стоимость доставки от 20 манат. Возможна доставка по
+                  Туркменистану, цена зависит от стоимости услуг доставки
+                  перевозчиков, Вы можете запросить информацию по телефонам +993
+                  00 00 00 00, +993 00 00 00 00
+                </p>
+              </div>
+            </transition>
+          </div>
         </div>
 
         <div class="moreButton">
@@ -456,6 +504,8 @@ export default {
     heightHeader: 0,
     stickyPX: 0,
     mobile: false,
+
+    questionsAnswers: 1,
   }),
 
   computed: {
@@ -539,3 +589,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.answers-enter-active,
+.answers-leave-active {
+  transition: opacity 0.5s;
+}
+.answers-enter,
+.answers-leave-to {
+  opacity: 0;
+}
+</style>

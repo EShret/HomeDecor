@@ -1,54 +1,54 @@
 module.exports = {
   server: {
     port: process.env.PORT,
-    host: 'localhost'
+    host: "localhost",
   },
 
   env: {
-    baseUrl: process.env.BASE_URL
+    baseUrl: process.env.BASE_URL,
   },
 
   head: {
     htmlAttrs: {
-      lang: 'ru'
+      lang: "ru",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'theme-color', content: '#000000' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#000000" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     script: [
       {
-        src: '/js/jquery.min.js',
-        body: true
+        src: "/js/jquery.min.js",
+        body: true,
       },
 
       {
-        src: '/js/swiper-bundle.min.js',
-        body: true
+        src: "/js/swiper-bundle.min.js",
+        body: true,
       },
 
       {
-        src: '/js/jquery.maskedinput.js',
-        body: true
-      }
-    ]
+        src: "/js/jquery.maskedinput.js",
+        body: true,
+      },
+    ],
   },
 
   loading: {
-    color: 'orange',
-    height: '2px',
-    throttle: 0
+    color: "orange",
+    height: "2px",
+    throttle: 0,
   },
 
-  css: ['~assets/scss/style.scss', '~assets/css/swiper-bundle.min.css'],
+  css: ["~assets/scss/style.scss", "~assets/css/swiper-bundle.min.css"],
 
   plugins: [
-    { src: '~/plugins/multi-select.js' },
-    { src: '~/plugins/vue-input-facade.js' },
-    { src: '~plugins/vee-validate', mode: 'client' }
+    { src: "~/plugins/multi-select.js" },
+    { src: "~/plugins/vue-input-facade.js" },
+    { src: "~plugins/vee-validate", mode: "client" },
   ],
 
   components: true,
@@ -57,7 +57,7 @@ module.exports = {
 
   router: {
     prefetchLinks: false,
-    extendRoutes (routes) {
+    extendRoutes(routes) {
       // routes.push({
       //   name: 'admin-catalog',
       //   path: '/admin-panel/sets',
@@ -78,34 +78,34 @@ module.exports = {
       //     path: '/catalog/:url?/:id?',
       //     component: 'pages/catalog/products/_id.vue'
       //   })
-    }
+    },
   },
 
-  buildModules: [['@nuxtjs/date-fns']],
+  buildModules: [["@nuxtjs/date-fns"]],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/auth', '@nuxtjs/toast', 'nuxt-lazy-load'],
+  modules: ["@nuxtjs/axios", "@nuxtjs/auth", "@nuxtjs/toast", "nuxt-lazy-load"],
 
   axios: { baseURL: process.env.BASE_URL, proxy: true },
-  proxy: { '/api/': `${process.env.BASE_URL}` },
+  proxy: { "/api/": `${process.env.BASE_URL}` },
 
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: '/api/auth/login',
-            method: 'post',
-            propertyName: 'token'
+            url: "/api/auth/login",
+            method: "post",
+            propertyName: "token",
           },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
-        }
-      }
-    }
+          logout: { url: "/api/auth/logout", method: "post" },
+          user: { url: "/api/auth/user", method: "get", propertyName: "user" },
+        },
+      },
+    },
   },
 
   build: {
     extractCSS: true,
-    transpile: ['vee-validate/dist/rules']
-  }
-}
+    transpile: ["vee-validate/dist/rules"],
+  },
+};
